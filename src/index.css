@@ -1,0 +1,27 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  background-color: #e5e5e5;
+  overscroll-behavior-x: none;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
