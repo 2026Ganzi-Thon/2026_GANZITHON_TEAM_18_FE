@@ -25,7 +25,30 @@
  * @property {string} situationType     SITUATION_TYPE
  * @property {string} goal              태그 선택 또는 직접 입력한 문장
  * @property {string|null} goalTag      GOAL_TAG
- * @property {object|null} conflictContext 충돌 정리에서 넘어온 경우만
+ * @property {ConflictContext} conflictContext 필수 (시뮬레이션은 항상 충돌 정리를 거친 뒤 시작, 11/15 확정)
+ */
+
+/**
+ * 충돌 정리 챗봇이 정리한 정보 (충돌 정리 화면에서 받음)
+ * @typedef {Object} ConflictSummary
+ * @property {string|null} counterpartName
+ * @property {string|null} relationCategory  RELATION_CATEGORY
+ * @property {string|null} relationDetail    예: 동아리 선배
+ * @property {string|null} requestContent
+ * @property {string|null} deadlineText
+ * @property {string|null} deadlineAt
+ * @property {number|null} estimatedMinutes
+ * @property {string|null} psychologicalContext
+ * @property {string[]} relatedScheduleIds
+ */
+
+/**
+ * 충돌 정리 → 시뮬레이션 연계용
+ * @typedef {Object} ConflictContext
+ * @property {ConflictSummary} summary
+ * @property {string} responseType          RESPONSE_TYPE
+ * @property {string|null} availableCondition
+ * @property {object[]} relatedSchedules     Schedule[]
  */
 
 /**
@@ -58,8 +81,7 @@
  * @typedef {Object} CheckIn
  * @property {string} simulationId
  * @property {'BEFORE'|'AFTER'} phase
- * @property {number} confidence  0~10
- * @property {number|null} burden 0~10 (디자인에 입력 UI가 없어 현재 null)
+ * @property {number} confidence  0~10. 슬라이더 하나 (0 = 부담돼요, 10 = 자신있어요)
  * @property {string} createdAt
  */
 

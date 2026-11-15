@@ -25,6 +25,8 @@ export const usePracticeStore = create((set, get) => ({
   goal: '',
   goalTag: null,
   situationType: SITUATION_TYPE.GENERAL_REQUEST, // ⚠️ 디자인에 선택 UI 없음 → 기본값
+  /** @type {import('./models/simulation').ConflictContext|null} 충돌 정리에서 넘겨받음 (필수, 11/15 확정) */
+  conflictContext: null,
   confidenceBefore: CONFIDENCE_DEFAULT,
 
   /** @type {import('./models/simulation').SimulationSession|null} */
@@ -34,6 +36,29 @@ export const usePracticeStore = create((set, get) => ({
   confidenceAfter: null,
 
   setUserName: (userName) => set({ userName }),
+
+  /**
+   * 충돌 정리에서 넘어올 때 호출. 상대 이름·관계는 summary 값으로 자동으로 채움 (회의 결정: 자동 반영).
+   * 새 충돌 건이므로 이전 목표·세션은 비웁니다.
+   */
+  setConflictContext: (conflictContext) => {
+    const summary = conflictContext?.summary ?? {};
+    set({
+      conflictContext,
+      contact: {
+        ...emptyContact(),
+        name: summary.counterpartName ?? '',
+        relationCategory: summary.relationCategory ?? '',
+        relationDetail: summary.relationDetail ?? null,
+      },
+      goalKey: null,
+      goal: '',
+      goalTag: null,
+      session: null,
+      hint: null,
+      confidenceAfter: null,
+    });
+  },
   setContact: (patch) => set((s) => ({ contact: { ...s.contact, ...patch } })),
   setGoal: ({ goalKey, goal, goalTag }) => set({ goalKey, goal, goalTag }),
   setConfidenceBefore: (confidenceBefore) => set({ confidenceBefore }),
@@ -49,7 +74,7 @@ export const usePracticeStore = create((set, get) => ({
       situationType: s.situationType,
       goal: s.goal,
       goalTag: s.goalTag,
-      conflictContext: null,
+      conflictContext: s.conflictContext,
     };
   },
 

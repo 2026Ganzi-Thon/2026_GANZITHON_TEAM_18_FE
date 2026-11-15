@@ -39,7 +39,6 @@ export function useSimulation() {
           simulationId: s.id,
           phase: CHECK_IN_PHASE.BEFORE,
           confidence: store().confidenceBefore,
-          burden: null,
           createdAt: new Date().toISOString(),
         });
         const res = await api.startSimulation(s.setup);
@@ -88,7 +87,6 @@ export function useSimulation() {
           simulationId: s.id,
           phase: CHECK_IN_PHASE.AFTER,
           confidence: confidenceAfter,
-          burden: null,
           createdAt: new Date().toISOString(),
         });
         const report = await api.getReport(s.setup, s.messages, endReason);
