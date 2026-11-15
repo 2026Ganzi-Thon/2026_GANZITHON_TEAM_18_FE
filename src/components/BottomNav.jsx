@@ -25,7 +25,7 @@ const navItems = [
   },
   {
     to: ROUTES.MESSAGE,
-    label: "메시지",
+    label: "대화 연습",
     defaultIcon: messageIcon,
     activeIcon: messageActiveIcon,
   },

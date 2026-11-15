@@ -2,6 +2,6 @@ export const ROUTES = Object.freeze({
   HOME: "/",
   INTRO: "/",
   MAIN: "/main",
-  MESSAGE: "/message",
+  MESSAGE: "/request/message",
   REQUEST: "/request",
 });

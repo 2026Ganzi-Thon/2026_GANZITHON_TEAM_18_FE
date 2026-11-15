@@ -6,8 +6,8 @@ export default function BottomNav() {
       <NavLink to="/main" className="bottom-nav__item">
         홈
       </NavLink>
-      <NavLink to="/message" className="bottom-nav__item">
-        메시지
+      <NavLink to="/conversation" className="bottom-nav__item">
+        대화 연습
       </NavLink>
       <NavLink to="/request" className="bottom-nav__item">
         요청
