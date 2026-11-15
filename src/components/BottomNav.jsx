@@ -24,7 +24,7 @@ const navItems = [
     activeIcon: requestActiveIcon,
   },
   {
-    to: ROUTES.MESSAGE,
+    to: ROUTES.CONVERSATION,
     label: "대화 연습",
     defaultIcon: messageIcon,
     activeIcon: messageActiveIcon,

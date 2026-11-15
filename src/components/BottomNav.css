@@ -2,7 +2,7 @@
   position: absolute;
   left: 32px;
   right: 32px;
-  bottom: 24px;
+  bottom: 20px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
@@ -11,15 +11,17 @@
   background: rgba(255, 255, 255, 0.14);
   box-shadow: 0 4px 16px 0 rgba(80, 86, 239, 0.14);
   backdrop-filter: blur(6px);
+  z-index: 20;
 }
 
-.bottom-nav__item {padding: 18px 32px;
+.bottom-nav__item {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 56px;
   border-radius: 18px;
   text-decoration: none;
+  padding: 14px 10px;
 }
 
 .bottom-nav__item img {

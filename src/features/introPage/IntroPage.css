@@ -12,12 +12,12 @@
 
 .status-icons {
   position: absolute;
-  top: 262px;
+  top: 234px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .intro-content {
@@ -26,27 +26,40 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin-top: 84px;
 }
 
 .intro-logo {
-  width: 64.175px;
-  height: 57.556px;
+  width: 149px;
+  height: 133px;
   object-fit: contain;
   display: block;
 }
 
 .intro-logo-text {
   display: block;
-  width: 120px;
+  width: 122px;
   height: auto;
+  margin-top: 14px;
 }
 
 .intro-description {
-  margin-top: 44px;
+  margin-top: 18px;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
   color: #111111;
   letter-spacing: -0.02em;
   text-align: center;
+}
+
+.home-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #111111;
+  transform: translateX(-50%);
 }
