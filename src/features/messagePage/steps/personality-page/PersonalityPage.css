@@ -1,0 +1,24 @@
+/* Screen 블록에 섞어(mix) 쓰는 페이지 블록 */
+.personality-page {
+  background: linear-gradient(180deg, #969aff 4.31%, var(--color-bg) 59.72%);
+}
+
+.personality-page__body {
+  overflow-x: hidden;
+}
+
+.personality-page__heading {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-white);
+}
+
+/* 캐러셀은 화면 전체 폭을 써야 양옆 카드가 보입니다 */
+.personality-page__carousel {
+  margin: 84px calc(-1 * var(--page-x)) 0;
+}
+
+.personality-page__tone {
+  margin-top: 36px;
+}

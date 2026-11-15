@@ -1,0 +1,17 @@
+.goal-page__heading {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-text-body);
+}
+
+.goal-page__goals {
+  margin-top: 28px;
+}
+
+.goal-page__mood {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 68px;
+}

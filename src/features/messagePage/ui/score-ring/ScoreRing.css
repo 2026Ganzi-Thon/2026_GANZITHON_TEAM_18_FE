@@ -1,0 +1,19 @@
+.score-ring {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.score-ring__svg {
+  position: absolute;
+  inset: 0;
+}
+
+.score-ring__icon {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  object-fit: cover;
+  filter: drop-shadow(4px 8px 12px rgba(80, 86, 239, 0.2));
+}

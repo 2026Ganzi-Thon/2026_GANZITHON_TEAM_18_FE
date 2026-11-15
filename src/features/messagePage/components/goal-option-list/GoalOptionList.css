@@ -1,0 +1,45 @@
+.goal-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.goal-option-list__card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 50px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+}
+
+.goal-option-list__card:has(input:focus-visible) {
+  box-shadow: var(--shadow-card), 0 0 0 1.5px var(--color-primary-light);
+}
+
+.goal-option-list__card--custom {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text);
+  outline: none;
+  cursor: text;
+}
+
+.goal-option-list__card--custom::placeholder {
+  color: var(--color-gray);
+}
+
+.goal-option-list__card--active {
+  box-shadow: var(--shadow-card), 0 0 0 1.5px var(--color-primary-light);
+}
+
+.goal-option-list__label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+}

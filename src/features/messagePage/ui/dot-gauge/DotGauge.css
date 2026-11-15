@@ -1,0 +1,15 @@
+.dot-gauge {
+  display: flex;
+  gap: 2px;
+}
+
+.dot-gauge__dot {
+  width: 20px;
+  height: 14px;
+  border-radius: 6px;
+  background: rgba(198, 200, 214, 0.3);
+}
+
+.dot-gauge__dot--on {
+  background: linear-gradient(168.37deg, #969aff 51.79%, #5056ef 46.02%);
+}
