@@ -1,0 +1,48 @@
+.request-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 16px 20px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.04);
+}
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-row label {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(17, 17, 17, 0.8);
+}
+
+.field-row input,
+.field-row textarea {
+  width: 100%;
+  border: 1px solid #e7eaf7;
+  border-radius: 14px;
+  background: #f9faff;
+  padding: 12px 14px;
+  font: inherit;
+  color: #111111;
+  resize: vertical;
+}
+
+.field-row input:focus,
+.field-row textarea:focus {
+  outline: 2px solid rgba(80, 86, 239, 0.15);
+  border-color: #cfd6ff;
+}
+
+.field-row textarea {
+  min-height: 160px;
+  line-height: 1.6;
+}
+
+.textarea-row {
+  margin-top: 6px;
+}
