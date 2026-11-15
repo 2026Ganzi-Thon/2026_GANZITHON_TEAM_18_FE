@@ -1,0 +1,39 @@
+.bottom-nav {
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 12px 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 16px 0 rgba(80, 86, 239, 0.14);
+  backdrop-filter: blur(6px);
+}
+
+.bottom-nav__item {padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  border-radius: 18px;
+  text-decoration: none;
+}
+
+.bottom-nav__item img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.bottom-nav__item.is-active {
+  background: transparent;
+  color: inherit;
+}
+
+.bottom-nav__item.is-active img {
+  filter: none;
+  opacity: 1;
+}
