@@ -7,12 +7,14 @@ import PersonalityCarousel from '../../components/personality-carousel/Personali
 import ToneExample from '../../components/tone-example/ToneExample';
 import { usePracticeStore } from '../../practiceStore';
 import { PERSONALITY_OPTIONS } from '../../constants/practice';
+import { PERSONALITY_TAG } from '../../constants/enums';
 import { ROUTES } from '../../routes';
 import { saveContact } from '../../storage/contacts';
 import checkIcon from '../../assets/icons/check.svg';
 import './PersonalityPage.css';
 
-const DEFAULT_INDEX = 1; // 디자인 기본 선택: 눈치 주기형
+// 디자인 기본 선택: 눈치 주기형
+const DEFAULT_INDEX = PERSONALITY_OPTIONS.findIndex((o) => o.value === PERSONALITY_TAG.GUILT_TRIP);
 
 /** 대화연습2: 상대 성격 선택 */
 export default function PersonalityPage() {

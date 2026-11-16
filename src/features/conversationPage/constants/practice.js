@@ -2,13 +2,29 @@ import { GOAL_TAG, PERSONALITY_TAG } from './enums';
 import logicalImg from '../assets/images/personality-logical.png';
 import guiltTripImg from '../assets/images/personality-hint.png';
 import coolImg from '../assets/images/personality-cool.png';
+import emotionalImg from '../assets/images/personality-emotional.svg';
+import pushyImg from '../assets/images/personality-pushy.svg';
 
 /**
- * 대화연습2 성격 선택지 (캐러셀 순서).
- * ⚠️ PersonalityTag는 5개(EMOTIONAL, PUSHY 포함)지만 디자인 이미지가 3개뿐이라 3개만 노출합니다.
+ * 대화연습2 성격 선택지 (캐러셀 순서). 단일 선택 (API 설계: PersonalityTag 단일 선택).
+ * ⚠️ 감정 호소형·밀어붙이기형 이미지는 기존 3개 스타일에 맞춰 임의로 만든 SVG입니다 (디자인 확정 시 교체).
  * ⚠️ 말투 예시는 '눈치 주기형'만 디자인 문구이고, 나머지는 임시 문구입니다.
  */
 export const PERSONALITY_OPTIONS = [
+  {
+    value: PERSONALITY_TAG.EMOTIONAL,
+    name: '감정 호소형',
+    description: '감정에 기대어 부탁해요',
+    image: emotionalImg,
+    toneExample: '나 요즘 진짜 너무 힘들어서 그래... 너 아니면 부탁할 사람이 없어.',
+  },
+  {
+    value: PERSONALITY_TAG.PUSHY,
+    name: '밀어붙이기형',
+    description: '거절할 틈 없이 몰아붙여요',
+    image: pushyImg,
+    toneExample: '그냥 해줘. 오늘까지 꼭 필요하니까 안 된다는 말은 하지 말고.',
+  },
   {
     value: PERSONALITY_TAG.LOGICAL,
     name: '논리형',
@@ -25,7 +41,7 @@ export const PERSONALITY_OPTIONS = [
   },
   {
     value: PERSONALITY_TAG.COOL,
-    name: '쿨한형',
+    name: '쿨한 편',
     description: '가볍게 툭 던지듯 부탁해요',
     image: coolImg,
     toneExample: '이거 오늘까지 좀 해줄 수 있지? 금방 할 거야~',
