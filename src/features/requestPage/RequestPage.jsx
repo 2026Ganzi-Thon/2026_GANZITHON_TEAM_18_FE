@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
 import Header from "../../components/Header";
+import StatusBar from "../../components/StatusBar";
 import personIcon from "../../assets/person.svg";
 import peopleIcon from "../../assets/people.svg";
 import contentIcon from "../../assets/content.svg";
@@ -18,18 +19,27 @@ export default function RequestPage() {
   const navigate = useNavigate();
   const [showExitModal, setShowExitModal] = useState(false);
   const [duration, setDuration] = useState("");
+  const [request, setRequest] = useState({ recipient: "", relationship: "", content: "", deadline: "" });
+  const updateRequest = (event) => setRequest((current) => ({ ...current, [event.target.name]: event.target.value }));
 
   return (
     <div className="page-shell request-page">
+      <StatusBar />
       <Header title="요청 정리하기" onBack={() => setShowExitModal(true)} />
 
-      <section className="request-form">
+      <form
+        className="request-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          navigate(ROUTES.RESPONSE_SELECTION, { state: { request: { ...request, duration } } });
+        }}
+      >
         <div className="field-row">
           <label htmlFor="recipient" className="field-label">
             <img src={personIcon} alt="" aria-hidden="true" />
             상대 이름
           </label>
-          <input id="recipient" type="text" placeholder="상대 이름" defaultValue="" />
+          <input id="recipient" name="recipient" type="text" placeholder="입력하세요..." value={request.recipient} onChange={updateRequest} required />
         </div>
 
         <div className="field-row">
@@ -37,7 +47,10 @@ export default function RequestPage() {
             <img src={peopleIcon} alt="" aria-hidden="true" />
             관계
           </label>
-          <input id="relationship" type="text" placeholder="선택" defaultValue="" />
+          <select id="relationship" name="relationship" value={request.relationship} onChange={updateRequest}>
+            <option value="">선택</option>
+            <option value="선배">선배</option><option value="동료">동료</option><option value="친구">친구</option><option value="가족">가족</option>
+          </select>
         </div>
 
         <div className="field-row textarea-row">
@@ -45,7 +58,7 @@ export default function RequestPage() {
             <img src={contentIcon} alt="" aria-hidden="true" />
             부탁 내용
           </label>
-          <textarea id="request-content" rows="5" placeholder="입력하세요..." />
+          <textarea id="request-content" name="content" rows="2" placeholder="입력하세요..." value={request.content} onChange={updateRequest} required />
         </div>
 
         <div className="field-row">
@@ -53,7 +66,7 @@ export default function RequestPage() {
             <img src={calendarIcon} alt="" aria-hidden="true" />
             마감일
           </label>
-          <input id="deadline" type="date" defaultValue="" />
+          <input id="deadline" name="deadline" type="date" value={request.deadline} onChange={updateRequest} />
         </div>
 
         <div className="field-row">
@@ -72,35 +85,31 @@ export default function RequestPage() {
         </div>
 
         <div className="request-actions">
-          <button
-            type="button"
-            className="primary-button"
-            onClick={() => navigate(ROUTES.RESPONSE_SELECTION)}
-          >
+          <button type="submit" className="primary-button">
             대응 선택하기
           </button>
         </div>
-      </section>
+      </form>
 
       {showExitModal && (
         <div className="exit-modal-overlay">
           <div className="exit-modal">
-            <h2>정말 나가겠습니까?</h2>
-            <p>작성 중인 내용은 저장되지 않습니다.</p>
+            <h2>정말 페이지를 벗어나실 건가요?</h2>
+            <p>입력한 내용은 저장되지 않아요.</p>
 
             <div className="exit-modal-actions">
-              <button type="button" className="modal-cancel" onClick={() => setShowExitModal(false)}>
-                계속하기
-              </button>
               <button
                 type="button"
-                className="modal-confirm"
+                className="modal-cancel"
                 onClick={() => {
                   setShowExitModal(false);
                   navigate(ROUTES.MAIN);
                 }}
               >
                 나가기
+              </button>
+              <button type="button" className="modal-confirm" onClick={() => setShowExitModal(false)}>
+                계속하기
               </button>
             </div>
           </div>

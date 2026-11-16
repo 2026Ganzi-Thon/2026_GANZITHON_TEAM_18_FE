@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
+import StatusBar from "../../components/StatusBar";
 import { ROUTES } from "../../router/routes.constant";
 
 import "./ResponseSelectionPage.css";
@@ -11,27 +12,29 @@ const optionList = [
   {
     id: "accept",
     title: "수락",
-    detail: "요청을 즉시 받아들이고, 감사 인사를 함께 전달하는 답변",
+    detail: "요청한 대로 도와줄게요.",
   },
   {
     id: "conditionalAccept",
     title: "조건부 수락",
-    detail: "일부 조건을 제시하며 가능성을 유지하는 유연한 답변",
+    detail: "시간이나 범위를 조정해서 도와줄게요.",
   },
   {
     id: "reject",
     title: "거절",
-    detail: "부드럽게 사유를 설명하고, 거절 의사를 분명히 전달하는 답변",
+    detail: "아쉽지만 이번에는 어려워요.",
   },
 ];
 
 export default function ResponseSelectionPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedId, setSelectedId] = useState(optionList[0].id);
   const [showExitModal, setShowExitModal] = useState(false);
 
   return (
     <div className="page-shell response-selection-page">
+      <StatusBar />
       <Header
         title="대응 선택하기"
         onBack={() => setShowExitModal(true)}
@@ -56,33 +59,33 @@ export default function ResponseSelectionPage() {
       </section>
 
       <div className="response-actions">
-        <button type="button" className="secondary-button" onClick={() => navigate(ROUTES.MESSAGE)}>
-          메시지 초안 보기
+        <button type="button" className="secondary-button" onClick={() => navigate(ROUTES.CONVERSATION)}>
+          말하기 전에 연습하기
         </button>
-        <button type="button" className="primary-button" onClick={() => navigate(ROUTES.CONVERSATION)}>
-          연습 시작
+        <button type="button" className="primary-button" onClick={() => navigate(ROUTES.MESSAGE, { state: { request: location.state?.request, response: selectedId } })}>
+          메시지 초안 보기
         </button>
       </div>
 
       {showExitModal && (
         <div className="exit-modal-overlay">
           <div className="exit-modal">
-            <h2>정말 나가겠습니까?</h2>
-            <p>작성 중인 내용은 저장되지 않습니다.</p>
+            <h2>정말 페이지를 벗어나실 건가요?</h2>
+            <p>입력한 내용은 저장되지 않아요.</p>
 
             <div className="exit-modal-actions">
-              <button type="button" className="modal-cancel" onClick={() => setShowExitModal(false)}>
-                계속하기
-              </button>
               <button
                 type="button"
-                className="modal-confirm"
+                className="modal-cancel"
                 onClick={() => {
                   setShowExitModal(false);
                   navigate(ROUTES.MAIN);
                 }}
               >
                 나가기
+              </button>
+              <button type="button" className="modal-confirm" onClick={() => setShowExitModal(false)}>
+                계속하기
               </button>
             </div>
           </div>
