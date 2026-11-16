@@ -13,57 +13,12 @@
   overflow: hidden;
 }
 
-.main-header {
-  position: absolute;
-  z-index: 1;
-  top: 62px;
-  left: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 326px;
-  height: 36px;
-}
-
-.brand-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-icon {
-  display: block;
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.brand-name {
-  font-family: "Tmoney RoundWind", "Pretendard", sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.55px;
-  line-height: 22px;
-}
-
-.header-setting {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  padding: 6px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  box-shadow: 0 4px 16px rgba(80, 86, 239, 0.16);
-  cursor: pointer;
-}
-
-.setting-icon {
-  display: block;
-  width: 18px;
-  height: 18px;
-}
+.main-header { position: absolute; z-index: 1; top: 62px; left: 32px; display: flex; align-items: center; justify-content: space-between; width: 326px; height: 36px; }
+.brand-wrap { display: flex; align-items: center; gap: 12px; }
+.brand-icon { display: block; width: 32px; height: 32px; object-fit: contain; }
+.brand-name { font-family: "Tmoney RoundWind", "Pretendard", sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.55px; line-height: 22px; }
+.header-setting { display: grid; place-items: center; width: 30px; height: 30px; padding: 6px; border: 0; border-radius: 8px; background: transparent; box-shadow: 0 4px 16px rgba(80,86,239,.16); cursor: pointer; }
+.setting-icon { display: block; width: 18px; height: 18px; }
 
 .practice-hero {
   position: absolute;

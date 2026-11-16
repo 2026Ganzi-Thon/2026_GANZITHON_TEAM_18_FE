@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
-import Header from "../../components/Header";
+import PageHeader from "../conversationPage/ui/page-header/PageHeader";
 import StatusBar from "../../components/StatusBar";
 import copyIcon from "../../assets/copy.svg";
 import shareIcon from "../../assets/share.svg";
@@ -45,7 +45,7 @@ export default function MessagePage() {
   return (
     <div className="page-shell message-page">
       <StatusBar />
-      <Header title="메시지 초안" />
+      <PageHeader title="메시지 초안" />
       <section className="draft-section">
         <label htmlFor="draft-message" className="draft-label">보낼 메시지</label>
         <div className="draft-card">

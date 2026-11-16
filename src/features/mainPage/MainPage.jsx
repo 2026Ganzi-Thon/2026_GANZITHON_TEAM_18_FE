@@ -22,12 +22,7 @@ export default function MainPage() {
           <img src={logoIcon} alt="" aria-hidden="true" className="brand-icon" />
           <span className="brand-name">말사이</span>
         </div>
-        <button
-          type="button"
-          className="header-setting"
-          aria-label="설정"
-          onClick={() => setSettingsOpen(true)}
-        >
+        <button type="button" className="header-setting" aria-label="설정" onClick={() => setSettingsOpen(true)}>
           <img src={settingIcon} alt="" aria-hidden="true" className="setting-icon" />
         </button>
       </header>

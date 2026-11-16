@@ -5,6 +5,15 @@
   margin-top: max(12px, env(safe-area-inset-top));
 }
 
+.page-header__action {
+  position: absolute;
+  top: 13px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .page-header__back {
   position: absolute;
   left: 26px;
