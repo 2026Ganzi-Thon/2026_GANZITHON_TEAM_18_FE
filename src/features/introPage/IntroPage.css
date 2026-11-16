@@ -1,65 +1,51 @@
 .intro-screen {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
-  background: #f5f8ff;
   overflow: hidden;
-}
-
-.status-icons {
-  position: absolute;
-  top: 234px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #f5f8ff;
 }
 
 .intro-content {
+  position: absolute;
+  top: 262px;
+  left: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 44px;
+  width: 161px;
+  transform: translateX(-50%);
   text-align: center;
-  margin-top: 84px;
+}
+
+.intro-content.is-wordmark {
+  top: 322px;
+  width: 213.779px;
+  gap: 22px;
 }
 
 .intro-logo {
-  width: 149px;
-  height: 133px;
-  object-fit: contain;
   display: block;
+  width: 120.93px;
+  height: 117.52px;
+  object-fit: contain;
 }
 
-.intro-logo-text {
+.intro-wordmark {
   display: block;
-  width: 122px;
-  height: auto;
-  margin-top: 14px;
+  width: 213.779px;
+  height: 57.5556px;
+  object-fit: contain;
 }
 
 .intro-description {
-  margin-top: 18px;
+  margin: 0;
+  color: #191919;
+  font-family: "Pretendard", sans-serif;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.5;
-  color: #111111;
-  letter-spacing: -0.02em;
-  text-align: center;
-}
-
-.home-indicator {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  width: 134px;
-  height: 5px;
-  border-radius: 100px;
-  background: #111111;
-  transform: translateX(-50%);
+  letter-spacing: -0.35px;
+  line-height: 22px;
+  white-space: nowrap;
 }

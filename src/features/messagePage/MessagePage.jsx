@@ -1,81 +1,71 @@
-import { NavLink } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import homeIcon from "../../assets/homeIcon.svg";
-import messageActiveIcon from "../../assets/messageActiveIcon.svg";
-import requestIcon from "../../assets/requestIcon.svg";
-import { ROUTES } from "../../router/routes.constant";
+import BottomNav from "../../components/BottomNav";
+import Header from "../../components/Header";
+import StatusBar from "../../components/StatusBar";
+import copyIcon from "../../assets/copy.svg";
+import shareIcon from "../../assets/share.svg";
+import "./MessagePage.css";
 
-import './MessagePage.css';
-
-const messages = [
-  {
-    name: "지민",
-    time: "오후 3:20",
-    preview: "오늘은 잠깐만 들려도 돼? 말이 필요한 것 같아.",
-    unread: 2,
-  },
-  {
-    name: "서윤",
-    time: "오후 1:05",
-    preview: "네가 괜찮아질 수 있게 같이 기다릴게.",
-    unread: 0,
-  },
-  {
-    name: "강우",
-    time: "어제",
-    preview: "이 자리를 만들어서 고마워. 언제든 말해줘.",
-    unread: 1,
-  },
-];
-
-const navItems = [
-  { to: ROUTES.MAIN, label: "홈", icon: homeIcon },
-  { to: ROUTES.MESSAGE, label: "메시지", icon: messageActiveIcon },
-  { to: ROUTES.REQUEST, label: "요청", icon: requestIcon },
-];
+function makeDraft(request, response) {
+  const name = request?.recipient?.trim() || "상대방";
+  const ask = request?.content?.trim() || "부탁한 일";
+  if (response === "reject") return `${name}님, 미안해요. ${ask}는 이번에는 어려울 것 같아요. 이해해 주시면 고맙겠습니다.`;
+  if (response === "conditionalAccept") return `${name}님, 부탁해 주셔서 고마워요. ${ask}는 일정 조정이 필요하지만, 가능한 시간을 함께 맞춰볼 수 있을까요?`;
+  return `${name}님, 부탁해 주셔서 고마워요. ${ask} 도와드릴게요.`;
+}
 
 export default function MessagePage() {
+  const { state } = useLocation();
+  const initialDraft = useMemo(() => makeDraft(state?.request, state?.response), [state]);
+  const [draft, setDraft] = useState(initialDraft);
+  const [copied, setCopied] = useState(false);
+
+  const copyDraft = async () => {
+    try {
+      await navigator.clipboard.writeText(draft);
+    } catch {
+      const field = document.querySelector(".draft-textarea");
+      field?.select();
+      document.execCommand("copy");
+      field?.setSelectionRange(draft.length, draft.length);
+    }
+    setCopied(true);
+  };
+
+  const shareDraft = async () => {
+    if (navigator.share) {
+      try { await navigator.share({ text: draft }); } catch { /* share sheet dismissed */ }
+    } else {
+      await copyDraft();
+    }
+  };
+
   return (
     <div className="page-shell message-page">
-      <header className="top-bar">
-        <div className="brand-wrap">
-          <span className="brand-name">메시지</span>
+      <StatusBar />
+      <Header title="메시지 초안" />
+      <section className="draft-section">
+        <label htmlFor="draft-message" className="draft-label">보낼 메시지</label>
+        <div className="draft-card">
+          <textarea id="draft-message" className="draft-textarea" maxLength={200} value={draft} onChange={(event) => { setDraft(event.target.value); setCopied(false); }} />
+          <span className="draft-count">{draft.length}/200</span>
         </div>
-        <button type="button" className="header-button" aria-label="새 메시지">
-          +
-        </button>
-      </header>
-
-      <section className="message-list">
-        {messages.map((item) => (
-          <article key={item.name} className="message-card">
-            <div className="avatar">{item.name.slice(0, 1)}</div>
-            <div className="message-content">
-              <div className="message-meta">
-                <strong>{item.name}</strong>
-                <span>{item.time}</span>
-              </div>
-              <p>{item.preview}</p>
-            </div>
-            {item.unread > 0 && <span className="badge">{item.unread}</span>}
-          </article>
-        ))}
+        <div className="draft-actions">
+          <button type="button" className={`draft-copy ${copied ? "is-copied" : ""}`} onClick={copyDraft}>
+            <img src={copyIcon} alt="" />{copied ? "복사 완료!" : "복사하기"}
+          </button>
+          <button type="button" className="draft-share" onClick={shareDraft}>
+            <img src={shareIcon} alt="" />공유하기
+          </button>
+        </div>
+        <aside className="draft-warning">
+          <span className="warning-mark" aria-hidden="true">!</span>
+          <span>직접 확인한 뒤 전달해 주세요.</span>
+        </aside>
       </section>
-
-      <nav className="bottom-nav" aria-label="하단 네비게이션">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
-          >
-            <img src={item.icon} alt="" />
-            <span>{item.label}</span>
-          </NavLink>
-        ))}
-      </nav>
+      <BottomNav />
     </div>
   );
 }
-
-

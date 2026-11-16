@@ -1,158 +1,38 @@
-.request-page {
-  padding: 24px 20px 136px;
+.request-page { padding: 0; overflow: hidden; }
+.request-page .page-header-wrap {
+  position: absolute; top: 44px; left: 0; height: 56px; min-height: 56px; padding: 0;
 }
-
+.request-page .header-back-button { left: 32px; width: 20px; height: 20px; border-radius: 0; background: transparent; box-shadow: none; }
+.request-page .header-back-button img { width: 14px; height: 14px; }
+.request-page .header-text-group { min-height: 32px; }
+.request-page .header-text-group h1 { font-size: 20px; line-height: 32px; }
 .request-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding-bottom: 24px;
+  position: absolute; top: 186px; left: 32px; display: flex; flex-direction: column; gap: 16px;
+  width: 326px; padding: 0; border: 0;
 }
-
-.field-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
+.field-row { display: flex; align-items: center; justify-content: space-between; gap: 0; width: 100%; min-height: 38px; }
+.field-label { display: flex; align-items: center; gap: 8px; width: 128px; min-width: 128px; color: #191919; font-size: 14px; font-weight: 600; letter-spacing: -0.35px; }
+.field-label img { flex: 0 0 24px; width: 24px; height: 24px; object-fit: contain; }
+.field-row input, .field-row textarea, .field-row select {
+  width: 158px; min-width: 0; min-height: 38px; padding: 8px 16px; border: 1px solid transparent; border-radius: 12px;
+  background-color: rgba(255,255,255,.04); box-shadow: 0 4px 16px rgba(80,86,239,.14); color: #191919; font: 400 14px/22px "Pretendard", sans-serif;
 }
-
-.field-row.textarea-row {
-  align-items: flex-start;
-}
-
-.field-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 108px;
-  font-size: 14px;
-  font-weight: 700;
-  color: rgba(17, 17, 17, 0.8);
-}
-
-.field-label img {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-
-.field-row input,
-.field-row textarea,
-.field-row select {
-  flex: 1;
-  min-height: 52px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 4px 16px 0 rgba(80, 86, 239, 0.14);
-  padding: 12px 14px;
-  font: inherit;
-  color: #111111;
-  box-sizing: border-box;
-}
-
-.field-row input::placeholder,
-.field-row textarea::placeholder {
-  color: rgba(17, 17, 17, 0.45);
-}
-
-.field-row textarea {
-  min-height: 128px;
-  resize: vertical;
-  line-height: 1.6;
-}
-
-.field-row input:focus,
-.field-row textarea:focus,
-.field-row select:focus {
-  outline: 2px solid rgba(80, 86, 239, 0.15);
-  border-color: rgba(80, 86, 239, 0.4);
-}
-
-.field-row select {
-  appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, #4b52d3 50%),
-    linear-gradient(135deg, #4b52d3 50%, transparent 50%);
-  background-position: calc(100% - 18px) calc(50% - 4px), calc(100% - 12px) calc(50% - 4px);
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
-  padding-right: 38px;
-}
-
-.request-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.primary-button,
-.secondary-button,
-.modal-cancel,
-.modal-confirm {
-  border: none;
-  border-radius: 16px;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 14px 18px;
-  cursor: pointer;
-}
-
-.primary-button {
-  background: linear-gradient(180deg, #6a70ff 0%, #5056ef 100%);
-  color: #ffffff;
-}
-
-.secondary-button {
-  background: #ecf0ff;
-  color: #4b52d3;
-}
-
-.exit-modal-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(17, 17, 17, 0.2);
-  z-index: 50;
-}
-
-.exit-modal {
-  width: min(320px, calc(100vw - 40px));
-  padding: 22px 18px 16px;
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 18px 40px rgba(17, 17, 17, 0.18);
-}
-
-.exit-modal h2 {
-  margin: 0 0 8px;
-  font-size: 20px;
-  letter-spacing: -0.05em;
-  text-align: center;
-}
-
-.exit-modal p {
-  margin: 0 0 18px;
-  text-align: center;
-  color: rgba(17, 17, 17, 0.65);
-}
-
-.exit-modal-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.modal-cancel {
-  background: #f3f5ff;
-  color: #282d3f;
-}
-
-.modal-confirm {
-  background: #5056ef;
-  color: #ffffff;
-}
-
-
+.field-row input::placeholder, .field-row textarea::placeholder, .field-row select:invalid { color: #78778f; }
+.field-row.textarea-row { align-items: stretch; flex-direction: column; gap: 8px; padding: 7px 0; }
+.field-row.textarea-row .field-label { width: auto; }
+.field-row.textarea-row textarea { width: 100%; height: 60px; min-height: 60px; resize: none; }
+.field-row input:focus, .field-row textarea:focus, .field-row select:focus { outline: 2px solid rgba(80,86,239,.2); border-color: rgba(80,86,239,.4); }
+.field-row select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #5056ef 50%), linear-gradient(135deg, #5056ef 50%, transparent 50%); background-position: calc(100% - 18px) 17px, calc(100% - 13px) 17px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
+.field-row input[type="date"] { color-scheme: light; }
+.request-actions { position: absolute; top: 482px; left: 0; width: 100%; margin: 0; }
+.request-actions .primary-button { width: 100%; height: 52px; border-radius: 12px; background: #5056ef; color: white; font-size: 16px; font-weight: 600; }
+.primary-button, .secondary-button, .modal-cancel, .modal-confirm { border: 0; border-radius: 16px; padding: 14px 18px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.secondary-button { background: #ecf0ff; color: #4b52d3; }
+.exit-modal-overlay { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: rgba(25,25,25,.54); }
+.exit-modal { width: min(326px, calc(100vw - 40px)); height: 176px; padding: 24px 27px; border-radius: 20px; background: rgba(245,248,255,.92); box-shadow: 0 4px 16px rgba(80,86,239,.14); backdrop-filter: blur(2px); transform: translateY(-22px); }
+.exit-modal h2 { margin: 0 0 4px; font-size: 20px; font-weight: 600; letter-spacing: -.5px; line-height: 32px; text-align: center; white-space: nowrap; }
+.exit-modal p { margin: 0 0 20px; color: #78778f; font-size: 16px; line-height: 24px; text-align: center; white-space: nowrap; }
+.exit-modal-actions { display: grid; grid-template-columns: 121px 135px; gap: 16px; }
+.modal-cancel, .modal-confirm { height: 48px; border-radius: 12px; padding: 12px; font-size: 16px; font-weight: 600; }
+.modal-cancel { background: #f5f8ff; color: #191919; }
+.modal-confirm { background: linear-gradient(165deg,#969aff 23%,#5056ef 67%); color: #f5f8ff; box-shadow: 0 4px 8px rgba(80,86,239,.14); }
