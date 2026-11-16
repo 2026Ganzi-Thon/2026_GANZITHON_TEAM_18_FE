@@ -1,0 +1,25 @@
+.text-field {
+  width: 158px;
+  height: 38px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-card);
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text);
+  outline: none;
+}
+
+.text-field::placeholder {
+  color: var(--color-gray);
+}
+
+.text-field:focus-visible {
+  box-shadow: var(--shadow-card), 0 0 0 1.5px var(--color-primary-light);
+}
+
+.text-field--block {
+  width: 100%;
+}

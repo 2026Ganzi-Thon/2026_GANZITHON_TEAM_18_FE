@@ -1,0 +1,40 @@
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--frame-width);
+  height: 100%; /* 팀 폰 프레임(.phone-wrapper 390×844) 안에 맞춤 */
+  margin: 0 auto;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.screen__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 28px var(--page-x) 24px;
+}
+
+.screen__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  padding: 12px var(--page-x) calc(20px + env(safe-area-inset-bottom)); /* 팀 탭바와 같은 하단 여백 */
+}
+
+.screen__footer--no-tab {
+  gap: 20px;
+  padding-bottom: calc(50px + env(safe-area-inset-bottom));
+}
+
+/*
+ * 팀 공통 BottomNav는 화면 하단에 absolute로 겹쳐 뜨는 구조라, 대화 연습 화면에서는
+ * 하단 버튼 아래 흐름에 놓이도록 위치만 덮어씁니다. 모양(유리 배경·모서리·그림자)은 그대로.
+ */
+.screen__footer .bottom-nav {
+  position: static;
+  width: 100%;
+}

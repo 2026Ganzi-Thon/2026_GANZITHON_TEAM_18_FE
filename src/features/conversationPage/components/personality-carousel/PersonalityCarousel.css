@@ -1,0 +1,83 @@
+.personality-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+.personality-carousel__track {
+  position: relative;
+  width: 100%;
+  height: 227px;
+  touch-action: pan-y;
+  user-select: none;
+  outline: none;
+}
+
+.personality-carousel__item {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 150px;
+  margin-left: -75px;
+  opacity: 0.28;
+  transform: translateX(var(--offset)) translateY(-10px) scale(0.85);
+  transform-origin: center top;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.personality-carousel__item--active {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+  cursor: default;
+}
+
+.personality-carousel__image {
+  width: 148px;
+  height: 147px;
+  object-fit: cover;
+  filter: drop-shadow(0 4px 38.5px rgba(255, 255, 255, 0.9));
+  pointer-events: none;
+}
+
+.personality-carousel__text {
+  width: 100%;
+  text-align: center;
+}
+
+.personality-carousel__name {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: 0;
+  color: #000;
+}
+
+.personality-carousel__description {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-gray);
+}
+
+.personality-carousel__pager {
+  display: flex;
+  gap: 6px;
+}
+
+.personality-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-border);
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.personality-carousel__dot--active {
+  width: 24px;
+  background: var(--color-primary);
+}

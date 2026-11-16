@@ -1,0 +1,30 @@
+/* Figma 디자인 토큰 (심리케어 서비스 / UI) */
+.conversation-root {
+  --color-primary: #5056ef;
+  --color-primary-light: #969aff;
+  --color-text: #191919;
+  --color-text-body: #0f172a;
+  --color-gray: #78778f;
+  --color-border: #c6c8d6;
+  --color-bg: #f5f8ff;
+  --color-white: #fefefe;
+  --color-hint-bg: rgba(4, 201, 116, 0.06);
+  --color-dim: rgba(25, 25, 25, 0.54);
+
+  --gradient-primary: linear-gradient(171.59deg, #969aff 1.62%, #5056ef 70.78%);
+  --gradient-bubble-ai: linear-gradient(135deg, #f1f1f1 9.71%, #d5d6de 189.99%);
+  --gradient-bubble-me: linear-gradient(114.8deg, #969aff 61.75%, #5056ef 104.3%);
+
+  --shadow-card: 0 4px 16px rgba(80, 86, 239, 0.14);
+  --shadow-card-strong: 0 4px 16px rgba(80, 86, 239, 0.16);
+  --shadow-soft: 0 4px 16px rgba(80, 86, 239, 0.08);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 18px;
+  --radius-xl: 20px;
+
+  --page-x: 32px;
+  --frame-width: 390px;
+  --tracking: -0.025em;
+}
