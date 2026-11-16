@@ -1,0 +1,10 @@
+.feedback-report-page__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Figma: 항목 카드 → 문장 비교 → 자신감 카드 사이는 44px (gap 28 + 16) */
+.feedback-report-page__section--spaced {
+  margin-top: 16px;
+}

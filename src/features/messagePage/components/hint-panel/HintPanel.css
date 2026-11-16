@@ -1,0 +1,51 @@
+.hint-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 3px 0 -2px; /* Figma: 마지막 말풍선과 40px (log gap 20 + 20) */
+  padding: 12px 16px;
+  border: 0.6px solid var(--color-white);
+  border-radius: var(--radius-md);
+  background: var(--color-hint-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.hint-panel__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.hint-panel__badge {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+}
+
+.hint-panel__direction {
+  word-break: keep-all;
+}
+
+.hint-panel__keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hint-panel__chip {
+  padding: 2px 10px;
+  border-radius: 27px;
+  background: rgba(245, 248, 255, 0.11);
+  box-shadow: var(--shadow-soft);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+}

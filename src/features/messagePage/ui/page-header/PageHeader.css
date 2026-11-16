@@ -1,0 +1,33 @@
+.page-header {
+  position: relative;
+  flex-shrink: 0;
+  height: 56px;
+  margin-top: max(12px, env(safe-area-inset-top));
+}
+
+.page-header__back {
+  position: absolute;
+  left: 26px;
+  top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.page-header__title {
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.page-header__title--light {
+  color: var(--color-white);
+}

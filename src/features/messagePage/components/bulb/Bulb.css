@@ -1,0 +1,25 @@
+/* Figma: 보이는 영역(size) 안에 125% 크기 프레임을 -12.5% 위치에 두고, 이미지는 그 안에서 다시 크롭 */
+.bulb {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.bulb__frame {
+  position: absolute;
+  left: -12.5%;
+  top: -12.5%;
+  width: 125%;
+  height: 125%;
+  overflow: hidden;
+}
+
+.bulb__img {
+  position: absolute;
+  left: -8.42%;
+  top: -17.28%;
+  width: 118.75%;
+  height: 118.75%;
+  max-width: none;
+}

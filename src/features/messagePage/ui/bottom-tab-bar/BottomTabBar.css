@@ -1,0 +1,59 @@
+.bottom-tab-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  width: 282px;
+  padding: 18px 32px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-card);
+}
+
+.bottom-tab-bar__tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+}
+
+.bottom-tab-bar__icon-box {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.bottom-tab-bar__icon {
+  position: absolute;
+}
+
+.bottom-tab-bar__icon--home {
+  left: 1.25px;
+  top: 1.25px;
+}
+
+.bottom-tab-bar__icon--practice {
+  left: 1px;
+  top: 1px;
+}
+
+.bottom-tab-bar__square {
+  position: absolute;
+  width: 12px;
+  height: 11px;
+  border: 1.5px solid var(--color-text);
+  border-radius: 1px;
+}
+
+.bottom-tab-bar__square--back {
+  left: 1px;
+  top: 2px;
+}
+
+.bottom-tab-bar__square--front {
+  left: 7px;
+  top: 7px;
+}

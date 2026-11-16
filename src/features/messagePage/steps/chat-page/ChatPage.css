@@ -1,0 +1,27 @@
+.chat-page__log {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chat-page__date {
+  margin-bottom: 8px;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--color-gray);
+}
+
+.chat-page__typing {
+  letter-spacing: 2px;
+  color: var(--color-gray);
+}
+
+.chat-page__error {
+  width: 100%;
+  margin-bottom: -8px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--color-primary);
+}

@@ -1,0 +1,44 @@
+.partner-setup-page__heading {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-text-body);
+}
+
+.partner-setup-page__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.partner-setup-page__list-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 19px;
+  margin-top: 48px;
+}
+
+.partner-setup-page__notice {
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--color-primary);
+}
+
+/* 충돌 정리 없이 들어왔을 때 안내 (디자인 없음 — 토큰만 맞춘 기본 형태) */
+.partner-setup-page__guide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: rgba(80, 86, 239, 0.08);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  color: var(--color-primary);
+}

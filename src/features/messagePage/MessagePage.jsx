@@ -1,92 +1,79 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-import Header from "../../components/Header";
-import BottomNav from "../../components/BottomNav";
-import checkIcon from "../../assets/check.svg";
-import chattingIcon from "../../assets/chatting.svg";
-import copyIcon from "../../assets/copy.svg";
-import shareIcon from "../../assets/share.svg";
+import homeIcon from "../../assets/homeIcon.svg";
+import messageActiveIcon from "../../assets/messageActiveIcon.svg";
+import requestIcon from "../../assets/requestIcon.svg";
+import { ROUTES } from "../../router/routes.constant";
 
-import "./MessagePage.css";
+import './MessagePage.css';
 
-const draftMessage = `안녕하세요. 최근 일정이 갑자기 바뀌어 연락드립니다.
-이번 주 회의 일정이 조금 늦어질 가능성이 있어,
-미리 양해 부탁드립니다. 가능한 빠르게 다시 안내드릴게요.`;
+const messages = [
+  {
+    name: "지민",
+    time: "오후 3:20",
+    preview: "오늘은 잠깐만 들려도 돼? 말이 필요한 것 같아.",
+    unread: 2,
+  },
+  {
+    name: "서윤",
+    time: "오후 1:05",
+    preview: "네가 괜찮아질 수 있게 같이 기다릴게.",
+    unread: 0,
+  },
+  {
+    name: "강우",
+    time: "어제",
+    preview: "이 자리를 만들어서 고마워. 언제든 말해줘.",
+    unread: 1,
+  },
+];
+
+const navItems = [
+  { to: ROUTES.MAIN, label: "홈", icon: homeIcon },
+  { to: ROUTES.MESSAGE, label: "메시지", icon: messageActiveIcon },
+  { to: ROUTES.REQUEST, label: "요청", icon: requestIcon },
+];
 
 export default function MessagePage() {
-  const navigate = useNavigate();
-  const [message, setMessage] = useState(draftMessage);
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(message);
-      setCopied(true);
-    } catch (error) {
-      console.error("복사 실패", error);
-      setCopied(false);
-    }
-  };
-
-  const handleShare = async () => {
-    const shareText = message;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({ text: shareText });
-        return;
-      } catch (error) {
-        console.error("공유 취소", error);
-      }
-    }
-
-    try {
-      await navigator.clipboard.writeText(shareText);
-    } catch (error) {
-      console.error("공유용 복사 실패", error);
-    }
-  };
-
   return (
-    <div className="page-shell message-draft-page">
-      <Header title="메시지 초안" onBack={() => navigate(-1)} />
-
-      <section className="draft-card">
-        <div className="draft-header-row">
-          <div className="draft-label-wrap">
-            <img src={chattingIcon} alt="" aria-hidden="true" className="draft-label-icon" />
-            <span className="draft-label">보낼 메세지</span>
-          </div>
+    <div className="page-shell message-page">
+      <header className="top-bar">
+        <div className="brand-wrap">
+          <span className="brand-name">메시지</span>
         </div>
+        <button type="button" className="header-button" aria-label="새 메시지">
+          +
+        </button>
+      </header>
 
-        <textarea
-          className="draft-textarea"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          aria-label="보낼 메세지"
-        />
-
-        <div className="draft-actions">
-          <button type="button" className={`draft-secondary ${copied ? "copied" : ""}`} onClick={handleCopy}>
-            <img src={copied ? checkIcon : copyIcon} alt="" aria-hidden="true" />
-            {copied ? "복사 완료!" : "복사하기"}
-          </button>
-          <button type="button" className="draft-primary" onClick={handleShare}>
-            <img src={shareIcon} alt="" aria-hidden="true" />
-            공유하기
-          </button>
-        </div>
-
-        <div className="warning-box" role="alert">
-          <span className="warning-icon" aria-hidden="true">
-            ⚠
-          </span>
-          직접 확인한 뒤 전달해주세요
-        </div>
+      <section className="message-list">
+        {messages.map((item) => (
+          <article key={item.name} className="message-card">
+            <div className="avatar">{item.name.slice(0, 1)}</div>
+            <div className="message-content">
+              <div className="message-meta">
+                <strong>{item.name}</strong>
+                <span>{item.time}</span>
+              </div>
+              <p>{item.preview}</p>
+            </div>
+            {item.unread > 0 && <span className="badge">{item.unread}</span>}
+          </article>
+        ))}
       </section>
 
-      <BottomNav />
+      <nav className="bottom-nav" aria-label="하단 네비게이션">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+          >
+            <img src={item.icon} alt="" />
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
+      </nav>
     </div>
   );
 }
