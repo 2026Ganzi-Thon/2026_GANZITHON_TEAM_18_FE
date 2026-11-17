@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
+import Button from "../conversationPage/ui/button/Button";
 import { ROUTES } from "../../router/routes.constant";
 import { usePracticeStore } from "../conversationPage/practiceStore";
 import { getProfile } from "../conversationPage/storage/profile";
@@ -104,9 +105,7 @@ export default function ResponseSelectionPage() {
         onBack={() => setShowExitModal(true)}
       />
       <h2 className="response-prompt">어떻게 대응할까요?</h2>
-      {location.state?.recommendation?.reason && (
-        <p className="response-recommendation">AI 추천: {location.state.recommendation.reason}</p>
-      )}
+      
 
       <section className="response-options">
         {optionList.map((option) => {
@@ -131,12 +130,12 @@ export default function ResponseSelectionPage() {
       </section>
 
       <div className="response-actions">
-        <button type="button" className="secondary-button" onClick={startPractice}>
+        <Button fullWidth className="response-action-button" onClick={startPractice}>
           말하기 전에 연습하기
-        </button>
-        <button type="button" className="primary-button" onClick={() => navigate(ROUTES.MESSAGE, { state: { request: location.state?.request, response: selectedId, responseType: RESPONSE_TYPES[selectedId], conflictContext: makeConflictContext(location.state?.request || {}, selectedId, location.state?.conflictContext) } })}>
+        </Button>
+        <Button variant="outline" fullWidth className="response-action-button" onClick={() => navigate(ROUTES.MESSAGE, { state: { request: location.state?.request, response: selectedId, responseType: RESPONSE_TYPES[selectedId], conflictContext: makeConflictContext(location.state?.request || {}, selectedId, location.state?.conflictContext) } })}>
           메시지 초안 보기
-        </button>
+        </Button>
       </div>
 
       {showExitModal && (

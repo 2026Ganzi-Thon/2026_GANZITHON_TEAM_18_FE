@@ -1,4 +1,6 @@
-.request-page { padding: 0; overflow: hidden; }
+.request-page { --color-primary: #5056ef; --color-border: #c6c8d6; --color-bg: #f5f8ff; --color-text: #191919; --color-white: #fefefe; --gradient-primary: linear-gradient(171.59deg, #969aff 1.62%, #5056ef 70.78%); --radius-md: 16px; --radius-sm: 12px; padding: 0; overflow: hidden; }
+.request-page .button { font-family: "Pretendard", sans-serif; }
+.request-page .button--primary { border: 0; }
 .request-prompt { position: absolute; top: 128px; left: 32px; width: 326px; margin: 0; color: #0f172a; font: 700 18px/30px "Pretendard", sans-serif; letter-spacing: -.45px; }
 .request-page .page-header-wrap {
   position: absolute; top: 44px; left: 0; height: 56px; min-height: 56px; padding: 0;
@@ -26,8 +28,7 @@
 .field-row select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #5056ef 50%), linear-gradient(135deg, #5056ef 50%, transparent 50%); background-position: calc(100% - 18px) 17px, calc(100% - 13px) 17px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
 .field-row input[type="date"] { color-scheme: light; }
 .request-actions { position: absolute; top: 482px; left: 0; width: 100%; margin: 0; }
-.request-actions .primary-button { width: 100%; height: 52px; border-radius: 12px; background: #5056ef; color: white; font-size: 16px; font-weight: 600; }
-.request-actions .primary-button:disabled { opacity: .6; cursor: wait; }
+.request-actions .request-submit-button { width: 100%; height: 52px; }
 .conflict-followup { position: absolute; top: 330px; left: 0; display: grid; gap: 8px; width: 100%; }
 .conflict-followup p { margin: 0; color: #5056ef; font-size: 13px; line-height: 18px; }
 .conflict-suggestions { display: flex; flex-wrap: wrap; gap: 6px; }
