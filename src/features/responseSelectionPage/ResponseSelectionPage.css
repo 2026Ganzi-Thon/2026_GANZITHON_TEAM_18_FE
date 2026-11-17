@@ -8,7 +8,9 @@
 .response-options { position: absolute; top: 186px; left: 32px; display: flex; flex-direction: column; gap: 16px; width: 326px; margin: 0; }
 .response-option { display: flex; flex-direction: row; align-items: center; gap: 20px; width: 100%; height: 70px; padding: 12px 20px; border: 1px solid #e5e9ff; border-radius: 14px; background: rgba(255,255,255,.04); color: #191919; text-align: left; box-shadow: 0 4px 16px rgba(80,86,239,.1); cursor: pointer; }
 .response-option.selected { border-color: #5056ef; background: rgba(80,86,239,.07); }
-.option-tag { flex: 0 0 auto; font-size: 16px; font-weight: 700; letter-spacing: -.4px; }
+.option-select-icon { display: block; flex: 0 0 22px; width: 22px; height: 22px; }
+.option-copy { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; gap: 2px; }
+.option-tag { font-size: 16px; font-weight: 700; letter-spacing: -.4px; line-height: 22px; }
 .option-detail { font-size: 14px; line-height: 22px; color: #78778f; }
 .response-actions { position: absolute; top: 504px; left: 32px; display: flex; flex-direction: column; gap: 8px; width: 326px; margin: 0; }
 .response-actions button { width: 100%; height: 52px; border-radius: 12px; font-size: 16px; font-weight: 600; }

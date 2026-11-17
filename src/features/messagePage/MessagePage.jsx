@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
 import PageHeader from "../conversationPage/ui/page-header/PageHeader";
 import copyIcon from "../../assets/copy.svg";
+import checkIcon from "./assets/icons/check.svg";
 import shareIcon from "../../assets/share.svg";
 import { createMessageDraft } from "../conversationPage/api/conflicts";
+import { ROUTES } from "../../router/routes.constant";
 import "./MessagePage.css";
 
 function makeDraft(request, response) {
@@ -18,6 +20,7 @@ function makeDraft(request, response) {
 
 export default function MessagePage() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const initialDraft = useMemo(() => makeDraft(state?.request, state?.response), [state]);
   const [draft, setDraft] = useState(initialDraft);
   const [copied, setCopied] = useState(false);
@@ -78,9 +81,14 @@ export default function MessagePage() {
     }
   };
 
+  const goBack = () => {
+    if (window.history.state?.idx > 0) navigate(-1);
+    else navigate(ROUTES.RESPONSE_SELECTION, { state });
+  };
+
   return (
     <div className="page-shell message-page">
-      <PageHeader title="메시지 초안" />
+      <PageHeader title="메시지 초안" onBack={goBack} />
       <section className="draft-section">
         <label htmlFor="draft-message" className="draft-label">보낼 메시지</label>
         {draftLoading && <p className="draft-status" role="status">초안을 만들고 있어요...</p>}
@@ -91,7 +99,7 @@ export default function MessagePage() {
         </div>
         <div className="draft-actions">
           <button type="button" className={`draft-copy ${copied ? "is-copied" : ""}`} onClick={copyDraft}>
-            <img src={copyIcon} alt="" />{copied ? "복사 완료!" : "복사하기"}
+            <img src={copied ? checkIcon : copyIcon} alt="" />{copied ? "복사 완료!" : "복사하기"}
           </button>
           <button type="button" className="draft-share" onClick={shareDraft}>
             <img src={shareIcon} alt="" />공유하기

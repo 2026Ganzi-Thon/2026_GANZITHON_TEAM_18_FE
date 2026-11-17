@@ -7,6 +7,8 @@ import { ROUTES } from "../../router/routes.constant";
 import { usePracticeStore } from "../conversationPage/practiceStore";
 import { getProfile } from "../conversationPage/storage/profile";
 import { RELATION_CATEGORY, RESPONSE_TYPE } from "../conversationPage/constants/enums";
+import radioOn from "../conversationPage/assets/icons/radio-on.svg";
+import radioOff from "../conversationPage/assets/icons/radio-off.svg";
 
 import "./ResponseSelectionPage.css";
 
@@ -116,9 +118,13 @@ export default function ResponseSelectionPage() {
               type="button"
               className={`response-option ${isSelected ? "selected" : ""}`}
               onClick={() => setSelectedId(option.id)}
+              aria-pressed={isSelected}
             >
-              <span className="option-tag">{option.title}</span>
-              <span className="option-detail">{option.detail}</span>
+              <img className="option-select-icon" src={isSelected ? radioOn : radioOff} alt="" aria-hidden="true" />
+              <span className="option-copy">
+                <span className="option-tag">{option.title}</span>
+                <span className="option-detail">{option.detail}</span>
+              </span>
             </button>
           );
         })}

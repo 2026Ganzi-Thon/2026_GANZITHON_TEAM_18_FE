@@ -16,7 +16,7 @@
 .main-header { position: absolute; z-index: 1; top: 62px; left: 32px; display: flex; align-items: center; justify-content: space-between; width: 326px; height: 36px; }
 .brand-wrap { display: flex; align-items: center; gap: 12px; }
 .brand-icon { display: block; width: 32px; height: 32px; object-fit: contain; }
-.brand-name { font-family: "Tmoney RoundWind", "Pretendard", sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.55px; line-height: 22px; }
+.brand-name { display: block; width: 78px; height: 28px; object-fit: contain; object-position: left center; }
 .header-setting { display: grid; place-items: center; width: 30px; height: 30px; padding: 6px; border: 0; border-radius: 8px; background: transparent; box-shadow: 0 4px 16px rgba(80,86,239,.16); cursor: pointer; }
 .setting-icon { display: block; width: 18px; height: 18px; }
 
@@ -89,6 +89,16 @@
   height: 129px;
   object-fit: contain;
 }
+
+.how-to-section { position: absolute; top: 358px; left: 32px; width: 326px; }
+.how-to-section h2 { margin: 0 0 18px; color: #191919; font-size: 18px; font-weight: 700; letter-spacing: -.45px; line-height: 30px; }
+.how-to-cards { display: flex; width: 326px; margin-left: 3px; flex-direction: column; gap: 20px; }
+.how-to-card { display: flex; width: 326px; height: 96px; flex: 0 0 96px; align-items: center; gap: 8px; padding: 16px 24px; border: 0; border-radius: 28px; background: rgba(255,255,255,.04); box-shadow: 0 4px 16px rgba(80,86,239,.16), inset 0 4px 4px rgba(255,255,255,.04); }
+.how-to-icon { display: block; flex: 0 0 64px; width: 64px; height: 64px; overflow: hidden; }
+.how-to-icon img { display: block; width: 64px; height: 64px; object-fit: contain; }
+.how-to-copy { display: flex; min-width: 0; flex: 1 1 auto; flex-direction: column; gap: 4px; }
+.how-to-copy h3 { margin: 0; color: #191919; font-size: 16px; font-weight: 600; letter-spacing: -.4px; line-height: 24px; }
+.how-to-copy p { margin: 0; color: #78778f; font-size: 12px; font-weight: 400; letter-spacing: -.3px; line-height: 20px; white-space: nowrap; }
 
 .main-create-button {
   position: absolute;
