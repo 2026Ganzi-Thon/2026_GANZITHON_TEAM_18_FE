@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
-import Header from "../../components/Header";
-import StatusBar from "../../components/StatusBar";
+import PageHeader from "../conversationPage/ui/page-header/PageHeader";
 import copyIcon from "../../assets/copy.svg";
 import shareIcon from "../../assets/share.svg";
+import { createMessageDraft } from "../conversationPage/api/conflicts";
 import "./MessagePage.css";
 
 function makeDraft(request, response) {
@@ -21,6 +21,42 @@ export default function MessagePage() {
   const initialDraft = useMemo(() => makeDraft(state?.request, state?.response), [state]);
   const [draft, setDraft] = useState(initialDraft);
   const [copied, setCopied] = useState(false);
+  const [draftLoading, setDraftLoading] = useState(false);
+  const [draftError, setDraftError] = useState("");
+  const draftRequest = useRef(null);
+
+  useEffect(() => {
+    const context = state?.conflictContext;
+    const responseType = state?.responseType || context?.responseType;
+    if (!context?.summary || !responseType) return undefined;
+    const requestKey = JSON.stringify({ summary: context.summary, responseType, availableCondition: context.availableCondition });
+    if (draftRequest.current?.key !== requestKey) {
+      draftRequest.current = {
+        key: requestKey,
+        promise: createMessageDraft({
+          summary: context.summary,
+          relatedSchedules: context.relatedSchedules || [],
+          responseType,
+          availableCondition: context.availableCondition || null,
+          currentDraft: null,
+          messages: [],
+        }),
+      };
+    }
+    let current = true;
+    setDraftLoading(true);
+    setDraftError("");
+    draftRequest.current.promise.then((result) => {
+      if (!current) return;
+      if (result?.draft) setDraft(result.draft);
+      if (!result?.draft) setDraftError("초안을 만들지 못했어요. 직접 내용을 입력해 주세요.");
+    }).catch((error) => {
+      if (current) setDraftError(error.message || "초안을 만들지 못했어요. 다시 시도해 주세요.");
+    }).finally(() => {
+      if (current) setDraftLoading(false);
+    });
+    return () => { current = false; };
+  }, [state]);
 
   const copyDraft = async () => {
     try {
@@ -44,10 +80,11 @@ export default function MessagePage() {
 
   return (
     <div className="page-shell message-page">
-      <StatusBar />
-      <Header title="메시지 초안" />
+      <PageHeader title="메시지 초안" />
       <section className="draft-section">
         <label htmlFor="draft-message" className="draft-label">보낼 메시지</label>
+        {draftLoading && <p className="draft-status" role="status">초안을 만들고 있어요...</p>}
+        {draftError && <p className="draft-error" role="alert">{draftError}</p>}
         <div className="draft-card">
           <textarea id="draft-message" className="draft-textarea" maxLength={200} value={draft} onChange={(event) => { setDraft(event.target.value); setCopied(false); }} />
           <span className="draft-count">{draft.length}/200</span>

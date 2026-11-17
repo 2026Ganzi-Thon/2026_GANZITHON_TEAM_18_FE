@@ -11,3 +11,8 @@ export function getProfile() {
 export function saveProfileName(name) {
   write(KEYS.PROFILE, { ...getProfile(), name });
 }
+
+/** Merge profile fields without replacing locally saved schedules or roles. */
+export function saveProfileData(patch) {
+  write(KEYS.PROFILE, { ...getProfile(), ...patch });
+}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import PartnerSetupPage from './steps/partner-setup-page/PartnerSetupPage';
@@ -7,6 +7,7 @@ import GoalPage from './steps/goal-page/GoalPage';
 import ChatPage from './steps/chat-page/ChatPage';
 import FeedbackReportPage from './steps/feedback-report-page/FeedbackReportPage';
 import { usePracticeStore } from './practiceStore';
+import { getProfile } from './storage/profile';
 import { STEP } from './routes';
 
 import './ConversationPage.css';
@@ -29,15 +30,28 @@ export default function ConversationPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const incoming = location.state?.conflictContext;
+  const [contextReady, setContextReady] = useState(!incoming);
 
   useEffect(() => {
-    if (!incoming) return;
-    usePracticeStore.getState().setConflictContext(incoming);
+    if (!incoming) {
+      setContextReady(true);
+      return;
+    }
+    const store = usePracticeStore.getState();
+    const requestedName = location.state?.userName?.trim();
+    if (requestedName && !store.userName.trim()) store.setUserName(requestedName);
+    if (!store.userName.trim() && !requestedName) {
+      store.setUserName(getProfile().name?.trim() || '나');
+    }
+    store.setConflictContext(incoming);
+    setContextReady(true);
     // 한 번 받은 뒤 history state를 비워, 뒤로 가기로 돌아와도 진행 내용이 초기화되지 않게 함
     navigate(`${location.pathname}${location.search}`, { replace: true, state: null });
-  }, [incoming, location.pathname, location.search, navigate]);
+  }, [incoming, location.pathname, location.search, location.state?.userName, navigate]);
 
   const StepPage = STEP_PAGES[searchParams.get('step')] ?? PartnerSetupPage;
+
+  if (!contextReady) return <div className="conversation-root" aria-busy="true" />;
 
   return (
     <div className="conversation-root">

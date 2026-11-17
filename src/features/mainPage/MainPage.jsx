@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
-import StatusBar from "../../components/StatusBar";
 import logoIcon from "../../../public/assets/main-brand-icon.svg";
 import speechIcon from "../../../public/assets/main-hero.png";
 import settingIcon from "../../assets/setting.svg";
@@ -16,18 +15,12 @@ export default function MainPage() {
 
   return (
     <div className="page-shell main-page">
-      <StatusBar />
       <header className="main-header">
         <div className="brand-wrap">
           <img src={logoIcon} alt="" aria-hidden="true" className="brand-icon" />
           <span className="brand-name">말사이</span>
         </div>
-        <button
-          type="button"
-          className="header-setting"
-          aria-label="설정"
-          onClick={() => setSettingsOpen(true)}
-        >
+        <button type="button" className="header-setting" aria-label="설정" onClick={() => setSettingsOpen(true)}>
           <img src={settingIcon} alt="" aria-hidden="true" className="setting-icon" />
         </button>
       </header>
