@@ -1,18 +1,22 @@
 .message-page { padding: 0; overflow: hidden; }
-.message-page .page-header { margin-top: 44px; }
-.draft-section { position: absolute; top: 128px; left: 32px; width: 326px; }
+.message-page .page-header-wrap { position: absolute; top: 44px; left: 0; height: 56px; min-height: 56px; padding: 0; }
+.message-page .header-back-button { left: 32px; width: 20px; height: 20px; border-radius: 0; background: transparent; box-shadow: none; }
+.message-page .header-back-button img { width: 14px; height: 14px; }
+.message-page .header-text-group { min-height: 32px; }
+.message-page .header-text-group h1 { font-size: 20px; line-height: 32px; }
+.draft-section { position: absolute; top: 128px; left: 32px; right: 32px; }
 .draft-label { display: block; margin: 0 0 8px; color: #191919; font-size: 14px; font-weight: 600; letter-spacing: -.35px; line-height: 22px; }
 .draft-status, .draft-error { margin: -4px 0 8px; font-size: 12px; line-height: 18px; }
 .draft-status { color: #5056ef; }
 .draft-error { color: #c33b48; }
-.draft-card { position: relative; width: 100%; min-height: 164px; padding: 14px 16px 38px; border-radius: 12px; background: rgba(255,255,255,.04); box-shadow: 0 4px 16px rgba(80,86,239,.14); }
+.draft-card { position: relative; width: 100%; min-height: 164px; padding: 14px 16px 38px; border: 1px solid #e5e9ff; border-radius: 12px; background: rgba(255,255,255,.04); box-shadow: 0 4px 16px rgba(80,86,239,.14); }
 .draft-textarea { display: block; width: 100%; min-height: 112px; padding: 0; border: 0; outline: 0; resize: none; background: transparent; color: #191919; font: 400 14px/22px "Pretendard", sans-serif; }
 .draft-count { position: absolute; right: 16px; bottom: 14px; color: #78778f; font-size: 14px; line-height: 22px; }
 .draft-actions { position: absolute; top: 216px; left: 0; display: flex; justify-content: space-between; width: 100%; }
 .draft-actions button { display: flex; align-items: center; justify-content: center; gap: 10px; width: 154px; height: 50px; border-radius: 12px; font: 600 16px/24px "Pretendard", sans-serif; cursor: pointer; }
 .draft-actions img { width: 24px; height: 24px; object-fit: contain; }
 .draft-copy { border: 1px solid #c6c8d6; background: #f5f8ff; color: #191919; }
-.draft-copy.is-copied { border-color: #5056ef; background: #5056ef; color: #f5f8ff; }
+.draft-copy.is-copied {  border: 1px solid #c6c8d6; background: #f5f8ff; color: #191919; }
 .draft-share { border: 0; background: linear-gradient(165deg,#969aff 1.8%,#5056ef 73%); color: #f5f8ff; box-shadow: 0 4px 8px rgba(80,86,239,.14); }
 .draft-warning { position: absolute; top: 294px; left: 0; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 10px 20px; border-radius: 12px; background: #efeeff; color: #191919; font-size: 14px; letter-spacing: -.35px; line-height: 22px; }
 .warning-mark { display: grid; flex: 0 0 24px; place-items: center; width: 24px; height: 24px; border: 2px solid #5056ef; border-radius: 50%; color: #5056ef; font-weight: 700; }

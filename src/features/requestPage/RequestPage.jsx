@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
 import Header from "../../components/Header";
+import Button from "../conversationPage/ui/button/Button";
 import personIcon from "../../assets/person.svg";
 import peopleIcon from "../../assets/people.svg";
 import contentIcon from "../../assets/content.svg";
@@ -182,9 +183,9 @@ export default function RequestPage() {
         {apiError && <p className="request-api-error" role="alert">{apiError}</p>}
 
         <div className="request-actions">
-          <button type="submit" className="primary-button" disabled={submitting}>
-            {submitting ? "요청 정리 중..." : needsDetails ? "추가 내용 보내기" : "대응 선택하기"}
-          </button>
+          <Button type="submit" className="request-submit-button" disabled={submitting}>
+            {submitting ? "요청 정리 중..." : needsDetails ? "추가 내용 보내기" : "다음 단계로 넘어가기"}
+          </Button>
         </div>
       </form>
 

@@ -33,11 +33,14 @@ const navItems = [
 
 export default function BottomNav() {
   const location = useLocation();
+  const activeRoute = [ROUTES.RESPONSE_SELECTION, ROUTES.MESSAGE].includes(location.pathname)
+    ? ROUTES.REQUEST
+    : location.pathname;
 
   return (
     <nav className="bottom-nav" aria-label="하단 네비게이션">
       {navItems.map(({ to, label, defaultIcon, activeIcon }) => {
-        const isActive = location.pathname === to;
+        const isActive = activeRoute === to;
 
         return (
           <NavLink
