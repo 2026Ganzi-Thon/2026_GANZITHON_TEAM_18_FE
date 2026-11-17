@@ -12,7 +12,7 @@
 .draft-actions button { display: flex; align-items: center; justify-content: center; gap: 10px; width: 154px; height: 50px; border-radius: 12px; font: 600 16px/24px "Pretendard", sans-serif; cursor: pointer; }
 .draft-actions img { width: 24px; height: 24px; object-fit: contain; }
 .draft-copy { border: 1px solid #c6c8d6; background: #f5f8ff; color: #191919; }
-.draft-copy.is-copied { border-color: #5056ef; color: #5056ef; }
+.draft-copy.is-copied { border-color: #5056ef; background: #5056ef; color: #f5f8ff; }
 .draft-share { border: 0; background: linear-gradient(165deg,#969aff 1.8%,#5056ef 73%); color: #f5f8ff; box-shadow: 0 4px 8px rgba(80,86,239,.14); }
 .draft-warning { position: absolute; top: 294px; left: 0; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 10px 20px; border-radius: 12px; background: #efeeff; color: #191919; font-size: 14px; letter-spacing: -.35px; line-height: 22px; }
 .warning-mark { display: grid; flex: 0 0 24px; place-items: center; width: 24px; height: 24px; border: 2px solid #5056ef; border-radius: 50%; color: #5056ef; font-weight: 700; }
