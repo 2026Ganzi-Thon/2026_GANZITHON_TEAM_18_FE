@@ -15,3 +15,10 @@
   gap: 28px;
   margin-top: 68px;
 }
+
+/* Figma 110:2929: 자신감 카드와 기분 카드 사이 16px */
+.goal-page__mood-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

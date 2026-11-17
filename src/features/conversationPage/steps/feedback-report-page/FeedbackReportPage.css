@@ -4,7 +4,21 @@
   gap: 28px;
 }
 
-/* Figma: 항목 카드 → 문장 비교 → 자신감 카드 사이는 44px (gap 28 + 16) */
+/* Figma: 항목 카드 → 문장 비교 → 감정 변화 섹션 사이는 52px (gap 28 + 24) */
 .feedback-report-page__section--spaced {
-  margin-top: 16px;
+  margin-top: 24px;
+}
+
+/* Figma 110:2969·110:2972: 섹션 제목 아래 20px, 카드끼리 20px */
+.feedback-report-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedback-report-page__heading {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-text-body);
 }

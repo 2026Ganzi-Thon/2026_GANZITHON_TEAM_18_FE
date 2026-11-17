@@ -82,6 +82,7 @@
  * @property {string} simulationId
  * @property {'BEFORE'|'AFTER'} phase
  * @property {number} confidence  0~10. 슬라이더 하나 (0 = 부담돼요, 10 = 자신있어요)
+ * @property {string|null} mood   MOOD (기쁨/슬픔/화남/걱정/무념무상), 선택 안 하면 null
  * @property {string} createdAt
  */
 

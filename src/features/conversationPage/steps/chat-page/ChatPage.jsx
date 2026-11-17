@@ -6,6 +6,7 @@ import ChatHeader from '../../components/chat-header/ChatHeader';
 import ChatBubble from '../../components/chat-bubble/ChatBubble';
 import ChatInput from '../../components/chat-input/ChatInput';
 import HintPanel from '../../components/hint-panel/HintPanel';
+import SituationTags from '../../components/situation-tags/SituationTags';
 import PostMoodModal from '../../components/post-mood-modal/PostMoodModal';
 import { usePracticeStore } from '../../practiceStore';
 import { useSimulation } from '../../useSimulation';
@@ -35,6 +36,9 @@ export default function ChatPage() {
 
   const [moodOpen, setMoodOpen] = useState(false);
   const [confidenceAfter, setConfidenceAfter] = useState(confidenceBefore);
+  const [moodAfter, setMoodAfter] = useState(null);
+  const [draft, setDraft] = useState('');
+  const [tagKey, setTagKey] = useState(null);
   const bottomRef = useRef(null);
   const startedRef = useRef(false);
 
@@ -66,8 +70,21 @@ export default function ChatPage() {
   const inputLocked = busy || sim.isEnded || sim.isTurnLimitReached || sim.messages.length === 0;
 
   const submitMood = async () => {
-    const report = await sim.finish(confidenceAfter);
+    const report = await sim.finish(confidenceAfter, moodAfter);
     if (report) navigate(ROUTES.PRACTICE_REPORT);
+  };
+
+  // 상황 태그: 누르면 입력창에 문장을 채움 (선택된 태그를 다시 누르면 해제하고 비움)
+  const selectTag = (tag) => {
+    const off = tag.key === tagKey;
+    setTagKey(off ? null : tag.key);
+    setDraft(off ? '' : tag.sentence);
+  };
+
+  const send = (text) => {
+    setDraft('');
+    setTagKey(null);
+    sim.send(text);
   };
 
   return (
@@ -88,8 +105,11 @@ export default function ChatPage() {
               {sim.error}
             </p>
           )}
+          <SituationTags selectedKey={tagKey} onSelect={selectTag} disabled={inputLocked} />
           <ChatInput
-            onSend={sim.send}
+            value={draft}
+            onChange={setDraft}
+            onSend={send}
             onHint={sim.requestHint}
             disabled={inputLocked}
             hintDisabled={Boolean(hint)}
@@ -121,7 +141,12 @@ export default function ChatPage() {
       <PostMoodModal
         open={moodOpen}
         value={confidenceAfter}
-        onChange={setConfidenceAfter}
+        onChange={(v) => {
+          setConfidenceAfter(v);
+          usePracticeStore.getState().markConfidenceTouched();
+        }}
+        mood={moodAfter}
+        onMoodChange={setMoodAfter}
         // 대화가 이미 끝났으면(AI·턴 상한) 닫지 않고 결과로만 진행
         onClose={sim.isEnded ? undefined : () => setMoodOpen(false)}
         onSubmit={submitMood}

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import PartnerSetupPage from './steps/partner-setup-page/PartnerSetupPage';
+import PeoplePage from './steps/people-page/PeoplePage';
 import PersonalityPage from './steps/personality-page/PersonalityPage';
 import GoalPage from './steps/goal-page/GoalPage';
 import ChatPage from './steps/chat-page/ChatPage';
@@ -13,6 +14,7 @@ import './ConversationPage.css';
 
 const STEP_PAGES = {
   [STEP.PARTNER]: PartnerSetupPage,
+  [STEP.PEOPLE]: PeoplePage,
   [STEP.PERSONALITY]: PersonalityPage,
   [STEP.GOAL]: GoalPage,
   [STEP.CHAT]: ChatPage,

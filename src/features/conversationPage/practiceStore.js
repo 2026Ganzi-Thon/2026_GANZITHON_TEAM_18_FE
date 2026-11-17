@@ -28,12 +28,17 @@ export const usePracticeStore = create((set, get) => ({
   /** @type {import('./models/simulation').ConflictContext|null} 충돌 정리에서 넘겨받음 (필수, 11/15 확정) */
   conflictContext: null,
   confidenceBefore: CONFIDENCE_DEFAULT,
+  /** 자신감 슬라이더를 한 번이라도 움직였는지 (아니면 기본값 5 그대로라 변화를 말할 수 없음) */
+  confidenceTouched: false,
+  /** 연습 전 기분 (MOOD, 선택 안 하면 null) */
+  moodBefore: null,
 
   /** @type {import('./models/simulation').SimulationSession|null} */
   session: null,
   /** @type {import('./models/simulation').Hint|null} */
   hint: null,
   confidenceAfter: null,
+  moodAfter: null,
 
   setUserName: (userName) => set({ userName }),
 
@@ -57,12 +62,17 @@ export const usePracticeStore = create((set, get) => ({
       session: null,
       hint: null,
       confidenceAfter: null,
+      moodAfter: null,
+      confidenceTouched: false,
     });
   },
   setContact: (patch) => set((s) => ({ contact: { ...s.contact, ...patch } })),
   setGoal: ({ goalKey, goal, goalTag }) => set({ goalKey, goal, goalTag }),
   setConfidenceBefore: (confidenceBefore) => set({ confidenceBefore }),
   setConfidenceAfter: (confidenceAfter) => set({ confidenceAfter }),
+  setMoodBefore: (moodBefore) => set({ moodBefore }),
+  markConfidenceTouched: () => set({ confidenceTouched: true }),
+  setMoodAfter: (moodAfter) => set({ moodAfter }),
 
   /** 입력값으로 SimulationSetup 만들기 */
   buildSetup: () => {
@@ -89,7 +99,7 @@ export const usePracticeStore = create((set, get) => ({
       report: null,
       maxTurns: DEFAULT_MAX_TURNS,
     };
-    set({ session, hint: null, confidenceAfter: null });
+    set({ session, hint: null, confidenceAfter: null, moodAfter: null });
     return session;
   },
 
