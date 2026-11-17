@@ -17,6 +17,8 @@
 /* 캐러셀은 화면 전체 폭을 써야 양옆 카드가 보입니다 */
 .personality-page__carousel {
   margin: 84px calc(-1 * var(--page-x)) 0;
+  /* 화면 밖 카드 때문에 본문이 가로로 밀리지 않게 */
+  overflow-x: clip;
 }
 
 .personality-page__tone {

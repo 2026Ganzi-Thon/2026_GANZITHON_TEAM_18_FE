@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 1020" width="1040" height="1020">
+  <!-- 기존 personality-*.png 스타일 참고: 위는 하얗고 아래로 갈수록 진해지는 반투명 구슬 + 단색 이목구비 -->
+  <defs>
+    <radialGradient id="base" cx="40%" cy="15%" r="95%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#ffdcbc"/>
+      <stop offset="1" stop-color="#ff8a5b"/>
+    </radialGradient>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="80"/></filter>
+    <filter id="rim" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="6"/></filter>
+    <clipPath id="ball"><circle cx="520" cy="510" r="500"/></clipPath>
+  </defs>
+  <g clip-path="url(#ball)">
+    <circle cx="520" cy="510" r="500" fill="url(#base)"/>
+    <ellipse cx="780" cy="520" rx="200" ry="190" fill="#ffc24d" opacity="0.7" filter="url(#blur)"/>
+    <ellipse cx="560" cy="860" rx="380" ry="190" fill="#ff5e3a" opacity="0.9" filter="url(#blur)"/>
+    <ellipse cx="400" cy="170" rx="330" ry="170" fill="#ffffff" opacity="0.7" filter="url(#blur)"/>
+    <circle cx="520" cy="510" r="497" fill="none" stroke="#ffffff" stroke-width="8" opacity="0.7" filter="url(#rim)"/>
+  </g>
+  <g fill="#9a3412" stroke="#9a3412" stroke-linecap="round">
+    <!-- 화난 눈썹: 안쪽이 내려감 -->
+    <path d="M270 300 L450 350" fill="none" stroke-width="42"/>
+    <path d="M770 300 L590 350" fill="none" stroke-width="42"/>
+    <!-- 눈: 위가 평평한 반달 -->
+    <path d="M318 410 L422 410 Q422 490 370 490 Q318 490 318 410 Z" stroke="none"/>
+    <path d="M618 410 L722 410 Q722 490 670 490 Q618 490 618 410 Z" stroke="none"/>
+    <!-- 입: 앙 다문 일자 -->
+    <path d="M455 575 L585 575" fill="none" stroke-width="40"/>
+  </g>
+</svg>

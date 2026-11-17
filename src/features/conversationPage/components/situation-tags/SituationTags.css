@@ -1,0 +1,56 @@
+/* Figma 110:1934 */
+.situation-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.situation-tags__guide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-gray);
+}
+
+.situation-tags__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.situation-tags__chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: 0.7px solid var(--color-border);
+  border-radius: 32px;
+  background: var(--color-bg);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--color-text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.situation-tags__chip--selected {
+  border-color: var(--color-primary);
+  background: #efeeff;
+  color: var(--color-primary);
+}
+
+.situation-tags__chip:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.situation-tags__chip:focus-visible {
+  outline: 1.5px solid var(--color-primary-light);
+  outline-offset: 1px;
+}

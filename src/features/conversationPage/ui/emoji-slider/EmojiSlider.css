@@ -27,11 +27,22 @@
   height: 49px;
 }
 
-/* 트랙은 양쪽 이모지 중심 사이 (Figma: left 28, width 264 / 프레임 326) */
+/*
+ * 트랙은 양쪽 이모지 중심 사이 (Figma: left 28, width 264 / 프레임 326).
+ * 손잡이(rail)는 이모지(왼쪽 22~50px, 오른쪽 끝에서 27~55px)를 가리지 않게
+ * 이모지 바깥 + 손잡이 반지름(약 19px) + 여백만큼 안쪽에서만 움직입니다.
+ */
+.emoji-slider {
+  --rail-left: 72px;
+  --rail-right: 77px;
+  --track-left: 28px;
+  --track-right: 34px;
+}
+
 .emoji-slider__track {
   position: absolute;
-  left: 28px;
-  right: 34px;
+  left: var(--track-left);
+  right: var(--track-right);
   top: 10px;
   height: 10px;
   border-radius: 14px;
@@ -39,9 +50,21 @@
 }
 
 .emoji-slider__fill {
+  /* 채움 끝 = 손잡이 중심 (트랙 시작 → rail 시작까지 + rail 폭 × 비율) */
+  --offset: calc(var(--rail-left) - var(--track-left));
+  --shrink: calc(var(--offset) + var(--rail-right) - var(--track-right));
+  width: calc(var(--offset) + (100% - var(--shrink)) * var(--p));
   height: 100%;
   border-radius: 14px;
   background: linear-gradient(90deg, #969aff 15.5%, #5056ef 203.9%);
+}
+
+.emoji-slider__rail {
+  position: absolute;
+  left: var(--rail-left);
+  right: var(--rail-right);
+  top: 10px;
+  height: 10px;
 }
 
 .emoji-slider__thumb {

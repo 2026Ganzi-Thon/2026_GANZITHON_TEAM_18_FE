@@ -1,0 +1,189 @@
+/* Figma 24:5055 대화연습2 (주변 인물 불러오기) */
+.people-page__heading {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-text-body);
+}
+
+/* 110:1618: 검색 + 필터 칩 */
+.people-page__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.people-page__search {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-card);
+}
+
+.people-page__search:focus-within {
+  box-shadow: var(--shadow-card), 0 0 0 1.5px var(--color-primary-light);
+}
+
+.people-page__search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text);
+  outline: none;
+}
+
+.people-page__search input::placeholder {
+  color: var(--color-gray);
+}
+
+.people-page__search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.people-page__chips {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.people-page__chip {
+  width: 72px;
+  padding: 8px 0;
+  border: none;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-card);
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-gray);
+  cursor: pointer;
+}
+
+.people-page__chip--active {
+  background: linear-gradient(163.07deg, #969aff 2.18%, #5056ef 81.71%);
+  box-shadow: 0 4px 8px rgba(80, 86, 239, 0.14);
+  font-weight: 500;
+  color: var(--color-bg);
+}
+
+.people-page__chip:focus-visible {
+  outline: 1.5px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* 110:1619: 주변 인물 목록 */
+.people-page__list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.people-page__list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.people-page__list-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--color-text);
+}
+
+.people-page__count {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text);
+}
+
+.people-page__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.people-page__card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+}
+
+.people-page__card:has(.people-page__radio-input:focus-visible) {
+  box-shadow: var(--shadow-card), 0 0 0 1.5px var(--color-primary-light);
+}
+
+.people-page__radio-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.people-page__card > img {
+  flex-shrink: 0;
+}
+
+.people-page__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.people-page__name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.people-page__name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.people-page__tag {
+  padding: 0 10px;
+  border-radius: 30px;
+  background: #efeeff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.people-page__desc {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--color-gray);
+}
+
+.people-page__empty {
+  padding: 24px 0;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  color: var(--color-gray);
+}

@@ -1,0 +1,65 @@
+/* Figma 110:2906(목표 화면) · 110:2973(연습 후 팝업): 326×96, 칸 34px, 선택 칸 뒤 50×96 흰 배경 */
+.mood-picker {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+  height: 96px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+}
+
+.mood-picker--card {
+  background: rgba(254, 254, 254, 0.04);
+  box-shadow: var(--shadow-card-strong);
+}
+
+.mood-picker__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 50px;
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.mood-picker__item--selected {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.mood-picker__item:has(.mood-picker__input:focus-visible) {
+  outline: 1.5px solid var(--color-primary-light);
+  outline-offset: -2px;
+}
+
+.mood-picker__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mood-picker__label {
+  font-size: 10px;
+  line-height: 20px;
+  color: var(--color-gray);
+  white-space: nowrap;
+}
+
+.mood-picker__emoji {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+}
+
+.mood-picker__emoji img {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+}
