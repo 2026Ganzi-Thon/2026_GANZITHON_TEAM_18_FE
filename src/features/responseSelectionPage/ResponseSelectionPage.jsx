@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
-import StatusBar from "../../components/StatusBar";
 import { ROUTES } from "../../router/routes.constant";
 import { usePracticeStore } from "../conversationPage/practiceStore";
 import { getProfile } from "../conversationPage/storage/profile";
@@ -42,23 +41,35 @@ const RESPONSE_TYPES = {
   reject: RESPONSE_TYPE.DECLINE,
 };
 
-function makeConflictContext(request, response) {
+function makeConflictContext(request, response, existingContext) {
   const durationMinutes = { "30분": 30, "1시간": 60, "1시간 30분": 90, "2시간 이상": 120 };
   const relation = request.relationship?.trim();
+  const responseType = RESPONSE_TYPES[response];
+  if (existingContext?.summary) {
+    return {
+      ...existingContext,
+      responseType,
+      availableCondition: responseType === RESPONSE_TYPE.CONDITIONAL
+        ? existingContext.availableCondition || (request.duration ? `${request.duration} 정도 가능` : "가능한 시간과 범위를 조정해 도움 가능")
+        : null,
+    };
+  }
   return {
     summary: {
-      counterpartName: request.recipient.trim(),
+      counterpartName: request.recipient?.trim() || "상대방",
       relationCategory: RELATION_CATEGORIES[relation] || RELATION_CATEGORY.OTHER,
-      relationDetail: null,
-      requestContent: request.content.trim(),
+      relationDetail: request.relationship || null,
+      requestContent: request.content?.trim() || "부탁한 일",
       deadlineText: request.deadline || null,
       deadlineAt: request.deadline || null,
       estimatedMinutes: durationMinutes[request.duration] || null,
       psychologicalContext: null,
       relatedScheduleIds: [],
     },
-    responseType: RESPONSE_TYPES[response],
-    availableCondition: null,
+    responseType,
+    availableCondition: responseType === RESPONSE_TYPE.CONDITIONAL
+      ? request.duration ? `${request.duration} 정도 가능` : "가능한 시간과 범위를 조정해 도움 가능"
+      : null,
     relatedSchedules: [],
   };
 }
@@ -66,7 +77,10 @@ function makeConflictContext(request, response) {
 export default function ResponseSelectionPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedId, setSelectedId] = useState(optionList[0].id);
+  const [selectedId, setSelectedId] = useState(() => (
+    Object.entries(RESPONSE_TYPES).find(([, type]) => type === location.state?.recommendation?.responseType)?.[0]
+      || optionList[0].id
+  ));
   const [showExitModal, setShowExitModal] = useState(false);
   const startPractice = () => {
     const request = location.state?.request;
@@ -77,17 +91,20 @@ export default function ResponseSelectionPage() {
     const practiceStore = usePracticeStore.getState();
     const userName = practiceStore.userName.trim() || getProfile().name?.trim() || "나";
     navigate("/conversation?step=personality", {
-      state: { userName, conflictContext: makeConflictContext(request, selectedId) },
+      state: { userName, conflictContext: makeConflictContext(request, selectedId, location.state?.conflictContext) },
     });
   };
 
   return (
     <div className="page-shell response-selection-page">
-      <StatusBar />
       <Header
         title="대응 선택하기"
         onBack={() => setShowExitModal(true)}
       />
+      <h2 className="response-prompt">어떻게 대응할까요?</h2>
+      {location.state?.recommendation?.reason && (
+        <p className="response-recommendation">AI 추천: {location.state.recommendation.reason}</p>
+      )}
 
       <section className="response-options">
         {optionList.map((option) => {
@@ -111,7 +128,7 @@ export default function ResponseSelectionPage() {
         <button type="button" className="secondary-button" onClick={startPractice}>
           말하기 전에 연습하기
         </button>
-        <button type="button" className="primary-button" onClick={() => navigate(ROUTES.MESSAGE, { state: { request: location.state?.request, response: selectedId } })}>
+        <button type="button" className="primary-button" onClick={() => navigate(ROUTES.MESSAGE, { state: { request: location.state?.request, response: selectedId, responseType: RESPONSE_TYPES[selectedId], conflictContext: makeConflictContext(location.state?.request || {}, selectedId, location.state?.conflictContext) } })}>
           메시지 초안 보기
         </button>
       </div>

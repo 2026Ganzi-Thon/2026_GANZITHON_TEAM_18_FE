@@ -2,6 +2,9 @@
 .message-page .page-header { margin-top: 44px; }
 .draft-section { position: absolute; top: 128px; left: 32px; width: 326px; }
 .draft-label { display: block; margin: 0 0 8px; color: #191919; font-size: 14px; font-weight: 600; letter-spacing: -.35px; line-height: 22px; }
+.draft-status, .draft-error { margin: -4px 0 8px; font-size: 12px; line-height: 18px; }
+.draft-status { color: #5056ef; }
+.draft-error { color: #c33b48; }
 .draft-card { position: relative; width: 100%; min-height: 164px; padding: 14px 16px 38px; border-radius: 12px; background: rgba(255,255,255,.04); box-shadow: 0 4px 16px rgba(80,86,239,.14); }
 .draft-textarea { display: block; width: 100%; min-height: 112px; padding: 0; border: 0; outline: 0; resize: none; background: transparent; color: #191919; font: 400 14px/22px "Pretendard", sans-serif; }
 .draft-count { position: absolute; right: 16px; bottom: 14px; color: #78778f; font-size: 14px; line-height: 22px; }

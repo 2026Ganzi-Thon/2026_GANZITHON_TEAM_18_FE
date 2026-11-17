@@ -3,36 +3,116 @@ import { useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
 import Header from "../../components/Header";
-import StatusBar from "../../components/StatusBar";
 import personIcon from "../../assets/person.svg";
 import peopleIcon from "../../assets/people.svg";
 import contentIcon from "../../assets/content.svg";
 import calendarIcon from "../../assets/calendar.svg";
 import timeIcon from "../../assets/time.svg";
 import { ROUTES } from "../../router/routes.constant";
+import { chatConflict } from "../conversationPage/api/conflicts";
+import { getProfile, saveProfileData } from "../conversationPage/storage/profile";
+import { RELATION_CATEGORY } from "../conversationPage/constants/enums";
 
 import "./RequestPage.css";
 
 const durationOptions = ["30분", "1시간", "1시간 30분", "2시간 이상"];
+const relationCategories = { 선배: RELATION_CATEGORY.SENIOR, 동료: RELATION_CATEGORY.COLLEAGUE, 친구: RELATION_CATEGORY.FRIEND, 가족: RELATION_CATEGORY.FAMILY };
+const durationMinutes = { "30분": 30, "1시간": 60, "1시간 30분": 90, "2시간 이상": 120 };
+
+function makeRequestMessage(request, duration) {
+  return [
+    `상대 이름: ${request.recipient.trim()}`,
+    `관계: ${request.relationship || "기타"}`,
+    `부탁 내용: ${request.content.trim()}`,
+    `마감일: ${request.deadline || ""}`,
+    `예상 소요 시간: ${duration || ""}`,
+  ].join("\n");
+}
+
+function mergeById(existing = [], incoming = []) {
+  const entries = new Map(existing.map((item) => [item.id, item]));
+  incoming.forEach((item) => entries.set(item.id, item));
+  return [...entries.values()];
+}
 
 export default function RequestPage() {
   const navigate = useNavigate();
   const [showExitModal, setShowExitModal] = useState(false);
   const [duration, setDuration] = useState("");
   const [request, setRequest] = useState({ recipient: "", relationship: "", content: "", deadline: "" });
+  const [conflictMessages, setConflictMessages] = useState([]);
+  const [needsDetails, setNeedsDetails] = useState(false);
+  const [followUp, setFollowUp] = useState("");
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [suggestedTags, setSuggestedTags] = useState([]);
+  const [apiError, setApiError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const updateRequest = (event) => setRequest((current) => ({ ...current, [event.target.name]: event.target.value }));
+
+  const submitRequest = async (event) => {
+    event.preventDefault();
+    setApiError("");
+    const userMessage = needsDetails ? followUp.trim() : makeRequestMessage(request, duration);
+    if (!userMessage) {
+      setApiError("추가로 필요한 내용을 입력해 주세요.");
+      return;
+    }
+    const messages = needsDetails
+      ? [...conflictMessages, { sender: "USER", content: userMessage }]
+      : [{ sender: "USER", content: userMessage }];
+    setSubmitting(true);
+    try {
+      const profile = getProfile();
+      const result = await chatConflict({ schedules: profile.schedules, roles: profile.roles }, null, messages);
+      const latestProfile = getProfile();
+      const newSchedules = result.newSchedules || [];
+      const newRoles = result.newRoles || [];
+      saveProfileData({ schedules: mergeById(latestProfile.schedules, newSchedules), roles: mergeById(latestProfile.roles, newRoles) });
+      const summary = {
+        counterpartName: result.summary?.counterpartName || request.recipient.trim(),
+        relationCategory: result.summary?.relationCategory || relationCategories[request.relationship] || RELATION_CATEGORY.OTHER,
+        relationDetail: result.summary?.relationDetail || request.relationship || null,
+        requestContent: result.summary?.requestContent || request.content.trim(),
+        deadlineText: result.summary?.deadlineText || request.deadline || null,
+        deadlineAt: result.summary?.deadlineAt || (request.deadline ? `${request.deadline}T23:59:00+09:00` : null),
+        estimatedMinutes: result.summary?.estimatedMinutes ?? durationMinutes[duration] ?? null,
+        psychologicalContext: result.summary?.psychologicalContext || null,
+        relatedScheduleIds: result.summary?.relatedScheduleIds || [],
+      };
+      const history = [...messages, { sender: "AI", content: result.aiMessage }];
+      setConflictMessages(history);
+      setAiPrompt(result.aiMessage || "상황을 조금 더 자세히 알려주세요.");
+      setSuggestedTags(result.suggestedTags || []);
+      setNeedsDetails(!result.isInputComplete);
+      setFollowUp("");
+      if (result.isInputComplete) {
+        const relatedIds = new Set(summary.relatedScheduleIds);
+        const relatedSchedules = [...latestProfile.schedules, ...newSchedules].filter((item) => relatedIds.has(item.id));
+        const fallbackType = result.recommendation?.responseType || "CONDITIONAL";
+        const recommendation = result.recommendation || { responseType: fallbackType, reason: "정리한 상황을 바탕으로 대응 방식을 선택해 주세요." };
+        navigate(ROUTES.RESPONSE_SELECTION, {
+          state: {
+            request: { ...request, duration },
+            conflictContext: { summary, responseType: recommendation.responseType, availableCondition: null, relatedSchedules },
+            recommendation,
+          },
+        });
+      }
+    } catch (error) {
+      setApiError(error.message || "요청 내용을 정리하지 못했어요. 다시 시도해 주세요.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="page-shell request-page">
-      <StatusBar />
       <Header title="요청 정리하기" onBack={() => setShowExitModal(true)} />
+      <h2 className="request-prompt">받은 부탁을 입력해 주세요.</h2>
 
       <form
-        className="request-form"
-        onSubmit={(event) => {
-          event.preventDefault();
-          navigate(ROUTES.RESPONSE_SELECTION, { state: { request: { ...request, duration } } });
-        }}
+        className={`request-form ${needsDetails ? "has-followup" : ""}`}
+        onSubmit={submitRequest}
       >
         <div className="field-row">
           <label htmlFor="recipient" className="field-label">
@@ -84,9 +164,26 @@ export default function RequestPage() {
           </select>
         </div>
 
+        {needsDetails && (
+          <div className="conflict-followup">
+            <p>{aiPrompt}</p>
+            {suggestedTags.length > 0 && (
+              <div className="conflict-suggestions">
+                {suggestedTags.map((tag) => (
+                  <button key={`${tag.label}-${tag.prompt}`} type="button" onClick={() => setFollowUp(tag.prompt)}>{tag.label}</button>
+                ))}
+              </div>
+            )}
+            <label className="sr-only" htmlFor="conflict-followup">추가 상황</label>
+            <input id="conflict-followup" value={followUp} onChange={(event) => setFollowUp(event.target.value)} placeholder="추가로 알려줄 내용을 입력하세요" />
+          </div>
+        )}
+
+        {apiError && <p className="request-api-error" role="alert">{apiError}</p>}
+
         <div className="request-actions">
-          <button type="submit" className="primary-button">
-            대응 선택하기
+          <button type="submit" className="primary-button" disabled={submitting}>
+            {submitting ? "요청 정리 중..." : needsDetails ? "추가 내용 보내기" : "대응 선택하기"}
           </button>
         </div>
       </form>
