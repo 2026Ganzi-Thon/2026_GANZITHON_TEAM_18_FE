@@ -1,21 +1,21 @@
-.response-selection-page { padding: 0; overflow: hidden; }
+.response-selection-page { --color-primary: #5056ef; --color-border: #c6c8d6; --color-bg: #f5f8ff; --color-text: #191919; --color-white: #fefefe; --gradient-primary: linear-gradient(171.59deg, #969aff 1.62%, #5056ef 70.78%); --radius-md: 16px; --radius-sm: 12px; padding: 0; overflow: hidden; }
+.response-selection-page .button { font-family: "Pretendard", sans-serif; }
+.response-selection-page .button--primary { border: 0; }
 .response-selection-page .page-header-wrap { position: absolute; top: 44px; left: 0; height: 56px; min-height: 56px; padding: 0; }
 .response-selection-page .header-back-button { left: 32px; width: 20px; height: 20px; border-radius: 0; background: transparent; box-shadow: none; }
 .response-selection-page .header-back-button img { width: 14px; height: 14px; }
 .response-selection-page .header-text-group h1 { font-size: 20px; line-height: 32px; }
-.response-prompt { position: absolute; top: 128px; left: 32px; width: 326px; margin: 0; color: #0f172a; font: 700 18px/30px "Pretendard", sans-serif; letter-spacing: -.45px; }
-.response-recommendation { position: absolute; top: 160px; left: 32px; width: 326px; overflow: hidden; color: #5056ef; font-size: 12px; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
-.response-options { position: absolute; top: 186px; left: 32px; display: flex; flex-direction: column; gap: 16px; width: 326px; margin: 0; }
+.response-prompt { position: absolute; top: 128px; left: 32px; right: 32px; margin: 0; color: #0f172a; font: 700 18px/30px "Pretendard", sans-serif; letter-spacing: -.45px; }
+.response-recommendation { position: absolute; top: 160px; left: 32px; right: 32px; overflow: hidden; color: #5056ef; font-size: 12px; line-height: 18px; text-overflow: ellipsis; white-space: nowrap; }
+.response-options { position: absolute; top: 186px; left: 32px; right: 32px; display: flex; flex-direction: column; gap: 16px; margin: 0; }
 .response-option { display: flex; flex-direction: row; align-items: center; gap: 20px; width: 100%; height: 70px; padding: 12px 20px; border: 1px solid #e5e9ff; border-radius: 14px; background: rgba(255,255,255,.04); color: #191919; text-align: left; box-shadow: 0 4px 16px rgba(80,86,239,.1); cursor: pointer; }
 .response-option.selected { border-color: #5056ef; background: rgba(80,86,239,.07); }
 .option-select-icon { display: block; flex: 0 0 22px; width: 22px; height: 22px; }
 .option-copy { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; gap: 2px; }
 .option-tag { font-size: 16px; font-weight: 700; letter-spacing: -.4px; line-height: 22px; }
 .option-detail { font-size: 14px; line-height: 22px; color: #78778f; }
-.response-actions { position: absolute; top: 504px; left: 32px; display: flex; flex-direction: column; gap: 8px; width: 326px; margin: 0; }
-.response-actions button { width: 100%; height: 52px; border-radius: 12px; font-size: 16px; font-weight: 600; }
-.response-actions .primary-button { background: #5056ef; color: white; }
-.response-actions .secondary-button { border: 1px solid #c6c8d6; background: #f5f8ff; color: #191919; }
+.response-actions { position: absolute; top: 504px; left: 32px; right: 32px; display: flex; flex-direction: column; gap: 8px; margin: 0; }
+.response-actions .response-action-button { height: 52px; }
 .exit-modal-overlay { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: rgba(25,25,25,.54); }
 .exit-modal { width: min(326px, calc(100vw - 40px)); height: 176px; padding: 24px 27px; border-radius: 20px; background: rgba(245,248,255,.92); box-shadow: 0 4px 16px rgba(80,86,239,.14); backdrop-filter: blur(2px); transform: translateY(-22px); }
 .exit-modal h2 { margin: 0 0 4px; font-size: 20px; font-weight: 600; letter-spacing: -.5px; line-height: 32px; text-align: center; white-space: nowrap; }

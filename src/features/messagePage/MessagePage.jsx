@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import BottomNav from "../../components/BottomNav";
-import PageHeader from "../conversationPage/ui/page-header/PageHeader";
+import Header from "../../components/Header";
 import copyIcon from "../../assets/copy.svg";
-import checkIcon from "./assets/icons/check.svg";
+import checkIcon from "../../assets/check.svg";
 import shareIcon from "../../assets/share.svg";
 import { createMessageDraft } from "../conversationPage/api/conflicts";
 import { ROUTES } from "../../router/routes.constant";
@@ -88,7 +88,7 @@ export default function MessagePage() {
 
   return (
     <div className="page-shell message-page">
-      <PageHeader title="메시지 초안" onBack={goBack} />
+      <Header title="메시지 초안" onBack={goBack} />
       <section className="draft-section">
         <label htmlFor="draft-message" className="draft-label">보낼 메시지</label>
         {draftLoading && <p className="draft-status" role="status">초안을 만들고 있어요...</p>}
