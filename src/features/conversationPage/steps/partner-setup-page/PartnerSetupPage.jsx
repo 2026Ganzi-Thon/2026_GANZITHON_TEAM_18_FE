@@ -93,8 +93,8 @@ export default function PartnerSetupPage() {
               const name = e.target.value;
               // 오타 수정 정도는 성격 유지, 이름을 다 지우면 새 사람으로 보고 성격 초기화
               setContact({ id: null, ...(name.trim() ? {} : CLEARED_PERSON), name });
-              // 상대를 바꾸면 이전 충돌 정리 내용은 이 사람과 무관하므로 보내지 않음
-              clearConflictContext();
+              // 이름을 다 지우면 다른 사람으로 보고, 이전 충돌 정리 내용도 보내지 않음 (오타 수정은 유지)
+              if (!name.trim()) clearConflictContext();
             }}
           />
         </LabeledRow>

@@ -22,3 +22,29 @@
   flex-direction: column;
   gap: 16px;
 }
+
+/* 진행 중인 대화가 있을 때 새로 시작 확인 (디자인 없음 — 연습 후 기분 팝업과 같은 토큰) */
+.goal-page__confirm-title {
+  align-self: stretch;
+  padding: 0 22px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-text-body);
+}
+
+.goal-page__confirm-text {
+  align-self: stretch;
+  padding: 0 22px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text-body);
+}
+
+.goal-page__confirm-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: stretch;
+  padding: 0 22px;
+}
