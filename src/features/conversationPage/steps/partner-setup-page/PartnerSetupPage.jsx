@@ -7,9 +7,8 @@ import Button from '../../ui/button/Button';
 import LabeledRow from '../../ui/labeled-row/LabeledRow';
 import TextField from '../../ui/text-field/TextField';
 import Select from '../../ui/select/Select';
-import PeopleListSheet from '../../components/people-list-sheet/PeopleListSheet';
 import { usePracticeStore } from '../../practiceStore';
-import { listContacts, saveContact } from '../../storage/contacts';
+import { saveContact } from '../../storage/contacts';
 import { getProfile, saveProfileName } from '../../storage/profile';
 import { RELATION_LABEL } from '../../constants/labels';
 import { ROUTES } from '../../routes';
@@ -21,6 +20,9 @@ import documentIcon from '../../assets/icons/document.svg';
 import plusIcon from '../../assets/icons/plus.svg';
 import './PartnerSetupPage.css';
 
+/** 이름을 다 지우면 다른 사람을 새로 입력하는 것으로 보고, 불러온 인물의 성격·말투를 비웁니다 */
+const CLEARED_PERSON = { personalityTag: null, speechStyle: null };
+
 const RELATION_OPTIONS = Object.entries(RELATION_LABEL).map(([value, label]) => ({ value, label }));
 
 /** 대화연습1: 내 이름 / 상대 이름 / 관계 */
@@ -31,8 +33,6 @@ export default function PartnerSetupPage() {
   );
   const { setUserName, setContact } = usePracticeStore.getState();
 
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [contacts, setContacts] = useState([]);
   const [notice, setNotice] = useState('');
 
   // 내 이름은 profile에 저장해 두고 다음부터 기본값으로 채움
@@ -45,11 +45,6 @@ export default function PartnerSetupPage() {
   // mock 모드(BE 미연결)에서는 화면 확인을 위해 충돌 정리 없이도 진행 허용.
   const needsConflict = !conflictContext && !USE_MOCK;
   const isValid = !needsConflict && userName.trim() && contact.name.trim() && contact.relationCategory;
-
-  const openSheet = () => {
-    setContacts(listContacts());
-    setSheetOpen(true);
-  };
 
   const addToList = () => {
     if (!contact.name.trim() || !contact.relationCategory) {
@@ -67,9 +62,13 @@ export default function PartnerSetupPage() {
     else navigate(ROUTES.HOME);
   };
 
+  // 주변 인물에서 불러온 사람에게 성격이 이미 있으면 성격 선택을 건너뛰고 목표로 바로 이동
+  const hasPersonality = Boolean(contact.personalityTag);
+
   const next = () => {
     saveProfileName(userName.trim());
-    navigate(ROUTES.PRACTICE_PERSONALITY);
+    if (hasPersonality) navigate(ROUTES.PRACTICE_GOAL);
+    else navigate(ROUTES.PRACTICE_PERSONALITY);
   };
 
   return (
@@ -78,7 +77,7 @@ export default function PartnerSetupPage() {
       header={<PageHeader title="AI 대화 연습" onBack={goBack} />}
       footer={
         <Button icon={playIcon} disabled={!isValid} onClick={next}>
-          성격 유형 정하러 가기
+          {hasPersonality ? '대화 목표 정하러 가기' : '성격 유형 정하러 가기'}
         </Button>
       }
     >
@@ -102,7 +101,11 @@ export default function PartnerSetupPage() {
             id="contact-name"
             value={contact.name}
             maxLength={20}
-            onChange={(e) => setContact({ id: null, name: e.target.value })}
+            onChange={(e) => {
+              const name = e.target.value;
+              // 오타 수정 정도는 성격 유지, 이름을 다 지우면 새 사람으로 보고 성격 초기화
+              setContact({ id: null, ...(name.trim() ? {} : CLEARED_PERSON), name });
+            }}
           />
         </LabeledRow>
         <LabeledRow icon={peopleIcon} iconWidth={23.3467} iconHeight={18.75} label="관계" htmlFor="relation">
@@ -116,7 +119,7 @@ export default function PartnerSetupPage() {
       </div>
 
       <div className="partner-setup-page__list-buttons">
-        <Button variant="outline" icon={documentIcon} onClick={openSheet}>
+        <Button variant="outline" icon={documentIcon} onClick={() => navigate(ROUTES.PRACTICE_PEOPLE)}>
           주변 인물 리스트 불러오기
         </Button>
         <Button variant="outline" icon={plusIcon} iconSize={18} onClick={addToList}>
@@ -128,17 +131,6 @@ export default function PartnerSetupPage() {
           </p>
         )}
       </div>
-
-      <PeopleListSheet
-        open={sheetOpen}
-        contacts={contacts}
-        onClose={() => setSheetOpen(false)}
-        onSelect={(c) => {
-          setContact(c);
-          setSheetOpen(false);
-          setNotice('');
-        }}
-      />
     </Screen>
   );
 }

@@ -18,3 +18,10 @@
   width: 282px;
   max-width: calc(100% - 44px);
 }
+
+/* Figma 110:2995: 슬라이더(103) 바로 아래 기분 체크(96) */
+.post-mood-modal__inputs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

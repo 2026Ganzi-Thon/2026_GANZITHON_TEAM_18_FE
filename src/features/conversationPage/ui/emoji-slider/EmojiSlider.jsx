@@ -22,7 +22,10 @@ export default function EmojiSlider({ value, onChange, label = '자신감', card
         <img className="emoji-slider__emoji emoji-slider__emoji--left" src={angryEmoji} alt="" width="28" height="28" />
         <img className="emoji-slider__emoji emoji-slider__emoji--right" src={happyEmoji} alt="" width="28" height="29" />
         <div className="emoji-slider__track">
-          <div className="emoji-slider__fill" style={{ width: `${percent}%` }} />
+          <div className="emoji-slider__fill" style={{ '--p': percent / 100 }} />
+        </div>
+        {/* 손잡이가 움직이는 구간: 양쪽 이모지를 가리지 않도록 이모지 안쪽까지만 */}
+        <div className="emoji-slider__rail">
           <img
             className="emoji-slider__thumb"
             src={thumbIcon}

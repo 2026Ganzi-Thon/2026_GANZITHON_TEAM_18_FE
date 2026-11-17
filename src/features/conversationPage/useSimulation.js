@@ -39,6 +39,7 @@ export function useSimulation() {
           simulationId: s.id,
           phase: CHECK_IN_PHASE.BEFORE,
           confidence: store().confidenceBefore,
+          mood: store().moodBefore,
           createdAt: new Date().toISOString(),
         });
         const res = await api.startSimulation(s.setup);
@@ -76,17 +77,19 @@ export function useSimulation() {
     [run],
   );
 
-  /** 연습 후 자신감 기록 + 리포트 요청. 종료 버튼이면 endReason USER */
+  /** 연습 후 자신감·기분 기록 + 리포트 요청. 종료 버튼이면 endReason USER */
   const finish = useCallback(
-    (confidenceAfter) =>
+    (confidenceAfter, moodAfter = null) =>
       run('report', async () => {
         const { session: s } = store();
         const endReason = s.endReason ?? END_REASON.USER;
         store().setConfidenceAfter(confidenceAfter);
+        store().setMoodAfter(moodAfter);
         saveCheckIn({
           simulationId: s.id,
           phase: CHECK_IN_PHASE.AFTER,
           confidence: confidenceAfter,
+          mood: moodAfter,
           createdAt: new Date().toISOString(),
         });
         const report = await api.getReport(s.setup, s.messages, endReason);

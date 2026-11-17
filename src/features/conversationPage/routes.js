@@ -4,6 +4,7 @@
  */
 export const STEP = Object.freeze({
   PARTNER: 'partner',
+  PEOPLE: 'people',
   PERSONALITY: 'personality',
   GOAL: 'goal',
   CHAT: 'chat',
@@ -24,6 +25,7 @@ export const ROUTES = Object.freeze({
   CONVERSATION: '/conversation',
   REQUEST: '/request',
   PRACTICE_PARTNER: '/conversation',
+  PRACTICE_PEOPLE: stepPath(STEP.PEOPLE),
   PRACTICE_PERSONALITY: stepPath(STEP.PERSONALITY),
   PRACTICE_GOAL: stepPath(STEP.GOAL),
   PRACTICE_CHAT: stepPath(STEP.CHAT),
