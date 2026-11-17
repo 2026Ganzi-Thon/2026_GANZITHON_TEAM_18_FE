@@ -25,7 +25,7 @@
  * @property {string} situationType     SITUATION_TYPE
  * @property {string} goal              태그 선택 또는 직접 입력한 문장
  * @property {string|null} goalTag      GOAL_TAG
- * @property {ConflictContext} conflictContext 필수 (시뮬레이션은 항상 충돌 정리를 거친 뒤 시작, 11/15 확정)
+ * @property {ConflictContext|null} conflictContext 충돌 정리를 거쳤으면 채움, 바로 연습하면 null
  */
 
 /**
