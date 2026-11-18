@@ -25,7 +25,7 @@ export const usePracticeStore = create((set, get) => ({
   goal: '',
   goalTag: null,
   situationType: SITUATION_TYPE.GENERAL_REQUEST, // ⚠️ 디자인에 선택 UI 없음 → 기본값
-  /** @type {import('./models/simulation').ConflictContext|null} 충돌 정리에서 넘겨받음 (충돌 정리 없이 시작하면 null) */
+  /** @type {import('./models/simulation').ConflictContext|null} 충돌 정리에서 넘겨받음 (필수, 11/15 확정 — 없으면 대화 연습 진입 불가) */
   conflictContext: null,
   confidenceBefore: CONFIDENCE_DEFAULT,
   /** 자신감 슬라이더를 한 번이라도 움직였는지 (아니면 기본값 5 그대로라 변화를 말할 수 없음) */
@@ -66,8 +66,6 @@ export const usePracticeStore = create((set, get) => ({
       confidenceTouched: false,
     });
   },
-  /** 충돌 정리 없이 다른 상대로 연습할 때 이전 충돌 정리 내용을 비움 */
-  clearConflictContext: () => set({ conflictContext: null }),
   setContact: (patch) => set((s) => ({ contact: { ...s.contact, ...patch } })),
   setGoal: ({ goalKey, goal, goalTag }) => set({ goalKey, goal, goalTag }),
   setConfidenceBefore: (confidenceBefore) => set({ confidenceBefore }),

@@ -1,1 +1,13 @@
 @import './styles/global.css';
+
+/* 충돌 정리 없이 들어왔을 때 안내 (디자인 없음 — 토큰만 맞춘 기본 형태) */
+.conversation-guide__text {
+  margin-top: 40px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: rgba(80, 86, 239, 0.08);
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  color: var(--color-primary);
+}

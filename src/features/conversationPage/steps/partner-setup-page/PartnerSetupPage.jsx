@@ -30,7 +30,7 @@ export default function PartnerSetupPage() {
   const { userName, contact } = usePracticeStore(
     useShallow((s) => ({ userName: s.userName, contact: s.contact })),
   );
-  const { setUserName, setContact, clearConflictContext } = usePracticeStore.getState();
+  const { setUserName, setContact } = usePracticeStore.getState();
 
   const [notice, setNotice] = useState('');
 
@@ -40,7 +40,6 @@ export default function PartnerSetupPage() {
     if (savedName && !usePracticeStore.getState().userName) setUserName(savedName);
   }, [setUserName]);
 
-  // 충돌 정리를 거치지 않아도 시작 가능 (conflictContext는 있으면 보내고, 없으면 null)
   const isValid = userName.trim() && contact.name.trim() && contact.relationCategory;
 
   const addToList = () => {
@@ -93,8 +92,6 @@ export default function PartnerSetupPage() {
               const name = e.target.value;
               // 오타 수정 정도는 성격 유지, 이름을 다 지우면 새 사람으로 보고 성격 초기화
               setContact({ id: null, ...(name.trim() ? {} : CLEARED_PERSON), name });
-              // 이름을 다 지우면 다른 사람으로 보고, 이전 충돌 정리 내용도 보내지 않음 (오타 수정은 유지)
-              if (!name.trim()) clearConflictContext();
             }}
           />
         </LabeledRow>
