@@ -17,24 +17,19 @@
   padding: 28px var(--page-x) 24px;
 }
 
+/*
+ * 하단 탭바는 홈 화면과 똑같이 팀 공통 스타일 그대로(화면 하단에 absolute로 떠 있음) 둡니다.
+ * 하단 버튼이 탭바와 겹치지 않도록 탭바 자리(아래 38px + 높이 56px) + 간격 36px 만큼 비워 둠.
+ */
 .screen__footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 36px;
-  padding: 12px var(--page-x) calc(20px + env(safe-area-inset-bottom)); /* 팀 탭바와 같은 하단 여백 */
+  padding: 12px var(--page-x) calc(130px + env(safe-area-inset-bottom));
 }
 
 .screen__footer--no-tab {
   gap: 20px;
   padding-bottom: calc(50px + env(safe-area-inset-bottom));
-}
-
-/*
- * 팀 공통 BottomNav는 화면 하단에 absolute로 겹쳐 뜨는 구조라, 대화 연습 화면에서는
- * 하단 버튼 아래 흐름에 놓이도록 위치만 덮어씁니다. 모양(유리 배경·모서리·그림자)은 그대로.
- */
-.screen__footer .bottom-nav {
-  position: static;
-  width: 100%;
 }

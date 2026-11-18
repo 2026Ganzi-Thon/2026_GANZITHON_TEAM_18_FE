@@ -30,6 +30,15 @@ export function useSimulation() {
     }
   }, []);
 
+  /** 현재 세션의 AI 첫 메시지 받기 (시작 실패 후 다시 시도할 때도 같은 세션으로 재호출) */
+  const fetchFirstMessage = async () => {
+    const { session: s } = store();
+    const res = await api.startSimulation(s.setup);
+    store().updateSession({ maxTurns: res.maxTurns || s.maxTurns });
+    store().addMessage(createMessage(SENDER.AI, res.firstAiMessage));
+    return res;
+  };
+
   /** 새 세션 시작. setup을 넘기면 같은 설정으로 다시 하기 */
   const start = useCallback(
     (setup) =>
@@ -42,13 +51,13 @@ export function useSimulation() {
           mood: store().moodBefore,
           createdAt: new Date().toISOString(),
         });
-        const res = await api.startSimulation(s.setup);
-        store().updateSession({ maxTurns: res.maxTurns || s.maxTurns });
-        store().addMessage(createMessage(SENDER.AI, res.firstAiMessage));
-        return res;
+        return fetchFirstMessage();
       }),
     [run],
   );
+
+  /** 첫 메시지를 못 받았을 때 같은 세션으로 다시 시도 (checkIn은 다시 저장하지 않음) */
+  const retryStart = useCallback(() => run('start', fetchFirstMessage), [run]);
 
   const send = useCallback(
     (text) =>
@@ -56,7 +65,14 @@ export function useSimulation() {
         const { session: s } = store();
         const mine = createMessage(SENDER.USER, text);
         store().addMessage(mine);
-        const res = await api.chat(s.setup, [...s.messages, mine]);
+        let res;
+        try {
+          res = await api.chat(s.setup, [...s.messages, mine]);
+        } catch (e) {
+          // 실패한 메시지는 기록에서 빼서, 다시 보낼 때 같은 메시지가 두 번 쌓이지 않게 함
+          store().removeMessage(mine.id);
+          throw e;
+        }
         store().addMessage(createMessage(SENDER.AI, res.aiMessage));
         if (res.shouldEnd) {
           store().updateSession({ status: SESSION_STATUS.ENDED, endReason: res.endReason ?? END_REASON.AI });
@@ -108,6 +124,7 @@ export function useSimulation() {
     isEnded,
     isTurnLimitReached: Boolean(session) && turnCount >= session.maxTurns,
     start,
+    retryStart,
     send,
     requestHint,
     finish,

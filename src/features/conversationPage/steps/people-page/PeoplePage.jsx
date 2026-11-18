@@ -31,7 +31,7 @@ function matches(contact, query) {
 export default function PeoplePage() {
   const navigate = useNavigate();
   const currentId = usePracticeStore((s) => s.contact.id);
-  const { setContact } = usePracticeStore.getState();
+  const { setContact, clearConflictContext } = usePracticeStore.getState();
 
   const [contacts] = useState(listContacts);
   const [query, setQuery] = useState('');
@@ -50,6 +50,8 @@ export default function PeoplePage() {
   const selected = contacts.find((c) => c.id === selectedId);
 
   const load = () => {
+    // 같은 사람을 다시 고른 게 아니면, 이전 충돌 정리 내용은 이 사람과 무관하므로 비움
+    if (selected.id !== currentId) clearConflictContext();
     setContact(selected);
     navigate(ROUTES.PRACTICE_PARTNER);
   };
