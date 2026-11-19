@@ -53,7 +53,13 @@ export default function RequestPage() {
           </label>
           <select id="relationship" name="relationship">
             <option value="">선택</option>
-            <option value="선배">선배</option><option value="동료">동료</option><option value="친구">친구</option><option value="가족">가족</option>
+            <option value="동료/팀원">동료/팀원</option>
+            <option value="선배/상사">선배/상사</option>
+            <option value="후배">후배</option>
+            <option value="친구">친구</option>
+            <option value="연인">연인</option>
+            <option value="가족">가족</option>
+            <option value="기타">기타</option>
           </select>
         </div>
 
@@ -80,7 +86,10 @@ export default function RequestPage() {
           </label>
           <select id="duration" name="duration">
             <option value="">선택</option>
-            <option value="">선택</option>
+            <option value="30분">30분</option>
+            <option value="1시간">1시간</option>
+            <option value="1시간 30분">1시간 30분</option>
+            <option value="2시간 이상">2시간 이상</option>
           </select>
         </div>
 
