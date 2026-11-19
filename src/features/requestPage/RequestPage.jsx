@@ -165,28 +165,12 @@ export default function RequestPage() {
           </select>
         </div>
 
-        {needsDetails && (
-          <div className="conflict-followup">
-            <p>{aiPrompt}</p>
-            {suggestedTags.length > 0 && (
-              <div className="conflict-suggestions">
-                {suggestedTags.map((tag) => (
-                  <button key={`${tag.label}-${tag.prompt}`} type="button" onClick={() => setFollowUp(tag.prompt)}>{tag.label}</button>
-                ))}
-              </div>
-            )}
-            <label className="sr-only" htmlFor="conflict-followup">추가 상황</label>
-            <input id="conflict-followup" value={followUp} onChange={(event) => setFollowUp(event.target.value)} placeholder="추가로 알려줄 내용을 입력하세요" />
-          </div>
-        )}
-
-        {apiError && <p className="request-api-error" role="alert">{apiError}</p>}
-
-        <div className="request-actions">
-          <Button type="submit" className="request-submit-button" disabled={submitting}>
-            {submitting ? "요청 정리 중..." : needsDetails ? "추가 내용 보내기" : "다음 단계로 넘어가기"}
+        <Button type="submit" className="request-submit-button" disabled={submitting}>
+            {submitting ? "요청 정리 중..." : "다음 단계로 넘어가기"}
           </Button>
-        </div>
+
+
+        
       </form>
 
       {showExitModal && (
