@@ -51,32 +51,29 @@ function makeConflictContext(request, response, existingContext) {
   const durationMinutes = { "30분": 30, "1시간": 60, "1시간 30분": 90, "2시간 이상": 120 };
   const relation = request.relationship?.trim();
   const responseType = RESPONSE_TYPES[response];
-  if (existingContext?.summary) {
-    return {
-      ...existingContext,
-      responseType,
-      availableCondition: responseType === RESPONSE_TYPE.CONDITIONAL
-        ? existingContext.availableCondition || (request.duration ? `${request.duration} 정도 가능` : "가능한 시간과 범위를 조정해 도움 가능")
-        : null,
-    };
-  }
+  const inputSummary = {
+    counterpartName: request.recipient?.trim() || "상대방",
+    relationCategory: RELATION_CATEGORIES[relation] || RELATION_CATEGORY.OTHER,
+    relationDetail: request.relationship || null,
+    requestContent: request.content?.trim() || "부탁한 일",
+    deadlineText: request.deadline || null,
+    deadlineAt: request.deadline || null,
+    estimatedMinutes: durationMinutes[request.duration] || null,
+    psychologicalContext: null,
+    relatedScheduleIds: [],
+  };
+  // /conflicts/chat이 정리한 값을 우선 쓰고, 비어 있는 항목만 입력값으로 채움
+  const refinedSummary = Object.fromEntries(
+    Object.entries(existingContext?.summary ?? {}).filter(([, value]) => value != null && value !== ""),
+  );
   return {
-    summary: {
-      counterpartName: request.recipient?.trim() || "상대방",
-      relationCategory: RELATION_CATEGORIES[relation] || RELATION_CATEGORY.OTHER,
-      relationDetail: request.relationship || null,
-      requestContent: request.content?.trim() || "부탁한 일",
-      deadlineText: request.deadline || null,
-      deadlineAt: request.deadline || null,
-      estimatedMinutes: durationMinutes[request.duration] || null,
-      psychologicalContext: null,
-      relatedScheduleIds: [],
-    },
+    ...existingContext,
+    summary: { ...inputSummary, ...refinedSummary },
     responseType,
     availableCondition: responseType === RESPONSE_TYPE.CONDITIONAL
-      ? request.duration ? `${request.duration} 정도 가능` : "가능한 시간과 범위를 조정해 도움 가능"
+      ? existingContext?.availableCondition || (request.duration ? `${request.duration} 정도 가능` : "가능한 시간과 범위를 조정해 도움 가능")
       : null,
-    relatedSchedules: [],
+    relatedSchedules: existingContext?.relatedSchedules ?? [],
   };
 }
 
@@ -96,8 +93,9 @@ export default function ResponseSelectionPage() {
       return;
     }
     const practiceStore = usePracticeStore.getState();
-    const userName = practiceStore.userName.trim() || getProfile().name?.trim() || "나";
-    navigate("/conversation?step=personality", {
+    // 이름이 없으면 AI가 기본값("나")을 이름으로 불러서, 저장된 이름이 없을 땐 내 이름을 입력하는 단계부터 시작
+    const userName = practiceStore.userName.trim() || getProfile().name?.trim() || "";
+    navigate(`/conversation?step=${userName ? "personality" : "partner"}`, {
       state: { userName, conflictContext: makeConflictContext(request, selectedId, location.state?.conflictContext) },
     });
   };

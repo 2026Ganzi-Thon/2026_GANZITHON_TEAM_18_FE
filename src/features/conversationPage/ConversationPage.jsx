@@ -48,8 +48,9 @@ export default function ConversationPage() {
     const store = usePracticeStore.getState();
     const requestedName = location.state?.userName?.trim();
     if (requestedName && !store.userName.trim()) store.setUserName(requestedName);
+    // 저장된 이름이 없으면 비워 둠 → 상대 설정 단계에서 내 이름을 입력받음
     if (!store.userName.trim() && !requestedName) {
-      store.setUserName(getProfile().name?.trim() || '나');
+      store.setUserName(getProfile().name?.trim() || '');
     }
     store.setConflictContext(incoming);
     setContextReady(true);
