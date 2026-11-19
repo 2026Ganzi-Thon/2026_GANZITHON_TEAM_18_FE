@@ -42,14 +42,17 @@ export default function ChatPage() {
   const bottomRef = useRef(null);
   const startedRef = useRef(false);
 
+  const { restart, sameSetup } = location.state ?? {};
+
   // restart(목표 화면에서 시작 / 다시 하기) 또는 진행 중 세션이 없으면 새로 시작.
   // startedRef: StrictMode에서 effect가 두 번 실행돼도 한 번만 시작
   useEffect(() => {
     if (!goal || startedRef.current) return;
     startedRef.current = true;
-    const { restart, sameSetup } = location.state ?? {};
     const current = usePracticeStore.getState().session;
     if (restart || !current) sim.start(sameSetup ? current?.setup : undefined);
+    // restart 표시는 한 번 쓰고 비움. 남아 있으면 리포트에서 뒤로가기로 돌아올 때 연습이 처음부터 다시 시작됨
+    if (location.state) navigate(`${location.pathname}${location.search}`, { replace: true, state: null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -63,8 +66,11 @@ export default function ChatPage() {
   }, [sim.messages.length, hint, sim.pending]);
 
   if (!goal) return <Navigate to={ROUTES.PRACTICE_GOAL} replace />;
+  // 이미 리포트까지 끝난 연습이면(리포트에서 뒤로가기) 채팅 대신 리포트를 보여줌
+  if (!restart && sim.session?.report) return <Navigate to={ROUTES.PRACTICE_REPORT} replace />;
 
   const busy = sim.pending !== null;
+  const startFailed = !busy && Boolean(sim.error) && Boolean(sim.session) && sim.messages.length === 0;
   const firstAt = sim.messages[0]?.createdAt;
   const lastIsUser = sim.messages.at(-1)?.sender === SENDER.USER;
   const inputLocked = busy || sim.isEnded || sim.isTurnLimitReached || sim.messages.length === 0;
@@ -81,10 +87,12 @@ export default function ChatPage() {
     setDraft(off ? '' : tag.sentence);
   };
 
-  const send = (text) => {
+  const send = async (text) => {
     setDraft('');
     setTagKey(null);
-    sim.send(text);
+    const res = await sim.send(text);
+    // 전송 실패하면 쓴 내용을 입력창에 되돌려서 다시 보낼 수 있게 함
+    if (!res) setDraft(text);
   };
 
   return (
@@ -133,6 +141,11 @@ export default function ChatPage() {
         ))}
         {(sim.pending === 'start' || (sim.pending === 'reply' && lastIsUser)) && (
           <ChatBubble sender={SENDER.AI} content={<span className="chat-page__typing">···</span>} />
+        )}
+        {startFailed && (
+          <Button variant="outline" onClick={sim.retryStart}>
+            다시 시도하기
+          </Button>
         )}
         {hint && <HintPanel hint={hint} />}
         <div ref={bottomRef} />

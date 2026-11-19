@@ -9,7 +9,11 @@ import ChatPage from './steps/chat-page/ChatPage';
 import FeedbackReportPage from './steps/feedback-report-page/FeedbackReportPage';
 import { usePracticeStore } from './practiceStore';
 import { getProfile } from './storage/profile';
-import { STEP } from './routes';
+import { ROUTES, STEP } from './routes';
+import { USE_MOCK } from './api/client';
+import Screen from './layouts/screen/Screen';
+import PageHeader from './ui/page-header/PageHeader';
+import Button from './ui/button/Button';
 
 import './ConversationPage.css';
 
@@ -26,6 +30,7 @@ const STEP_PAGES = {
  * 대화 연습 탭 (AI 대화 연습).
  * /conversation?step=personality 처럼 쿼리로 단계를 고릅니다 (없거나 모르는 값이면 상대 설정).
  * 충돌 정리에서 넘겨준 conflictContext(location.state)를 받아 store에 넣습니다.
+ * 시뮬레이션 API는 conflictContext가 필수라(11/15 확정), 충돌 정리를 거치지 않았으면 모든 단계에서 안내만 보여줍니다.
  */
 export default function ConversationPage() {
   const [searchParams] = useSearchParams();
@@ -33,6 +38,7 @@ export default function ConversationPage() {
   const navigate = useNavigate();
   const incoming = location.state?.conflictContext;
   const [contextReady, setContextReady] = useState(!incoming);
+  const hasConflictContext = usePracticeStore((s) => Boolean(s.conflictContext));
 
   useEffect(() => {
     if (!incoming) {
@@ -54,6 +60,23 @@ export default function ConversationPage() {
   const StepPage = STEP_PAGES[searchParams.get('step')] ?? PartnerSetupPage;
 
   if (!contextReady) return <div className="conversation-root" aria-busy="true" />;
+
+  // mock 모드(BE 미연결)에서는 화면 확인을 위해 충돌 정리 없이도 진행 허용
+  if (!hasConflictContext && !USE_MOCK) {
+    return (
+      <div className="conversation-root">
+        <Screen
+          className="conversation-guide"
+          header={<PageHeader title="AI 대화 연습" onBack={() => navigate(ROUTES.HOME)} />}
+          footer={<Button onClick={() => navigate(ROUTES.REQUEST)}>충돌 정리하러 가기</Button>}
+        >
+          <p className="conversation-guide__text" role="status">
+            대화 연습은 충돌 정리를 마친 뒤 시작할 수 있어요.
+          </p>
+        </Screen>
+      </div>
+    );
+  }
 
   return (
     <div className="conversation-root">
