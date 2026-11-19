@@ -25,7 +25,7 @@ export const usePracticeStore = create((set, get) => ({
   goal: '',
   goalTag: null,
   situationType: SITUATION_TYPE.GENERAL_REQUEST, // ⚠️ 디자인에 선택 UI 없음 → 기본값
-  /** @type {import('./models/simulation').ConflictContext|null} 충돌 정리에서 넘겨받음 (필수, 11/15 확정) */
+  /** @type {import('./models/simulation').ConflictContext|null} 충돌 정리에서 넘겨받음 (필수, 11/15 확정 — 없으면 대화 연습 진입 불가) */
   conflictContext: null,
   confidenceBefore: CONFIDENCE_DEFAULT,
   /** 자신감 슬라이더를 한 번이라도 움직였는지 (아니면 기본값 5 그대로라 변화를 말할 수 없음) */
@@ -106,5 +106,8 @@ export const usePracticeStore = create((set, get) => ({
   updateSession: (patch) => set((s) => (s.session ? { session: { ...s.session, ...patch } } : {})),
   addMessage: (message) =>
     set((s) => (s.session ? { session: { ...s.session, messages: [...s.session.messages, message] }, hint: null } : {})),
+  /** 전송 실패한 메시지를 대화 기록에서 되돌림 */
+  removeMessage: (id) =>
+    set((s) => (s.session ? { session: { ...s.session, messages: s.session.messages.filter((m) => m.id !== id) } } : {})),
   setHint: (hint) => set({ hint }),
 }));

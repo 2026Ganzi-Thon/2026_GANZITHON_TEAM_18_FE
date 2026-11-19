@@ -12,7 +12,6 @@ import { saveContact } from '../../storage/contacts';
 import { getProfile, saveProfileName } from '../../storage/profile';
 import { RELATION_LABEL } from '../../constants/labels';
 import { ROUTES } from '../../routes';
-import { USE_MOCK } from '../../api/client';
 import personIcon from '../../assets/icons/person.svg';
 import peopleIcon from '../../assets/icons/people.svg';
 import playIcon from '../../assets/icons/play.svg';
@@ -28,8 +27,8 @@ const RELATION_OPTIONS = Object.entries(RELATION_LABEL).map(([value, label]) => 
 /** 대화연습1: 내 이름 / 상대 이름 / 관계 */
 export default function PartnerSetupPage() {
   const navigate = useNavigate();
-  const { userName, contact, conflictContext } = usePracticeStore(
-    useShallow((s) => ({ userName: s.userName, contact: s.contact, conflictContext: s.conflictContext })),
+  const { userName, contact } = usePracticeStore(
+    useShallow((s) => ({ userName: s.userName, contact: s.contact })),
   );
   const { setUserName, setContact } = usePracticeStore.getState();
 
@@ -41,10 +40,7 @@ export default function PartnerSetupPage() {
     if (savedName && !usePracticeStore.getState().userName) setUserName(savedName);
   }, [setUserName]);
 
-  // 시뮬레이션은 충돌 정리를 거쳐야 시작 가능 (conflictContext 필수, 11/15 확정).
-  // mock 모드(BE 미연결)에서는 화면 확인을 위해 충돌 정리 없이도 진행 허용.
-  const needsConflict = !conflictContext && !USE_MOCK;
-  const isValid = !needsConflict && userName.trim() && contact.name.trim() && contact.relationCategory;
+  const isValid = userName.trim() && contact.name.trim() && contact.relationCategory;
 
   const addToList = () => {
     if (!contact.name.trim() || !contact.relationCategory) {
@@ -82,15 +78,6 @@ export default function PartnerSetupPage() {
       }
     >
       <h2 className="partner-setup-page__heading">받은 부탁을 입력해 주세요.</h2>
-
-      {needsConflict && (
-        <div className="partner-setup-page__guide" role="status">
-          <p>대화 연습은 충돌 정리를 마친 뒤 시작할 수 있어요.</p>
-          <Button variant="outline" onClick={() => navigate(ROUTES.REQUEST)}>
-            충돌 정리하러 가기
-          </Button>
-        </div>
-      )}
 
       <div className="partner-setup-page__fields">
         <LabeledRow icon={personIcon} iconWidth={18} iconHeight={18.75} label="내 이름" htmlFor="user-name">

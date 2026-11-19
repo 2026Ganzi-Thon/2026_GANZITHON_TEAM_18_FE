@@ -88,7 +88,8 @@ export default function ResponseSelectionPage() {
   const startPractice = () => {
     const request = location.state?.request;
     if (!request?.recipient?.trim() || !request?.content?.trim()) {
-      navigate(ROUTES.CONVERSATION);
+      // 충돌 정리 내용이 없으면 대화 연습을 시작할 수 없으므로 충돌 정리로 되돌림
+      navigate(ROUTES.REQUEST);
       return;
     }
     const practiceStore = usePracticeStore.getState();
