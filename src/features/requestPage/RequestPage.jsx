@@ -42,10 +42,6 @@ export default function RequestPage() {
   const [duration, setDuration] = useState("");
   const [request, setRequest] = useState({ recipient: "", relationship: "", content: "", deadline: "" });
   const [conflictMessages, setConflictMessages] = useState([]);
-  const [needsDetails, setNeedsDetails] = useState(false);
-  const [followUp, setFollowUp] = useState("");
-  const [aiPrompt, setAiPrompt] = useState("");
-  const [suggestedTags, setSuggestedTags] = useState([]);
   const [apiError, setApiError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const updateRequest = (event) => setRequest((current) => ({ ...current, [event.target.name]: event.target.value }));
@@ -53,14 +49,12 @@ export default function RequestPage() {
   const submitRequest = async (event) => {
     event.preventDefault();
     setApiError("");
-    const userMessage = needsDetails ? followUp.trim() : makeRequestMessage(request, duration);
+    const userMessage = makeRequestMessage(request, duration);
     if (!userMessage) {
       setApiError("추가로 필요한 내용을 입력해 주세요.");
       return;
     }
-    const messages = needsDetails
-      ? [...conflictMessages, { sender: "USER", content: userMessage }]
-      : [{ sender: "USER", content: userMessage }];
+    const messages = [{ sender: "USER", content: userMessage }];
     setSubmitting(true);
     try {
       const profile = getProfile();
@@ -82,10 +76,6 @@ export default function RequestPage() {
       };
       const history = [...messages, { sender: "AI", content: result.aiMessage }];
       setConflictMessages(history);
-      setAiPrompt(result.aiMessage || "상황을 조금 더 자세히 알려주세요.");
-      setSuggestedTags(result.suggestedTags || []);
-      setNeedsDetails(!result.isInputComplete);
-      setFollowUp("");
       if (result.isInputComplete) {
         const relatedIds = new Set(summary.relatedScheduleIds);
         const relatedSchedules = [...latestProfile.schedules, ...newSchedules].filter((item) => relatedIds.has(item.id));
@@ -112,7 +102,7 @@ export default function RequestPage() {
       <h2 className="request-prompt">받은 부탁을 입력해 주세요.</h2>
 
       <form
-        className={`request-form ${needsDetails ? "has-followup" : ""}`}
+        className="request-form"
         onSubmit={submitRequest}
       >
         <div className="field-row">
@@ -164,27 +154,12 @@ export default function RequestPage() {
             ))}
           </select>
         </div>
-
-        {needsDetails && (
-          <div className="conflict-followup">
-            <p>{aiPrompt}</p>
-            {suggestedTags.length > 0 && (
-              <div className="conflict-suggestions">
-                {suggestedTags.map((tag) => (
-                  <button key={`${tag.label}-${tag.prompt}`} type="button" onClick={() => setFollowUp(tag.prompt)}>{tag.label}</button>
-                ))}
-              </div>
-            )}
-            <label className="sr-only" htmlFor="conflict-followup">추가 상황</label>
-            <input id="conflict-followup" value={followUp} onChange={(event) => setFollowUp(event.target.value)} placeholder="추가로 알려줄 내용을 입력하세요" />
-          </div>
-        )}
-
+`r`n
         {apiError && <p className="request-api-error" role="alert">{apiError}</p>}
 
         <div className="request-actions">
           <Button type="submit" className="request-submit-button" disabled={submitting}>
-            {submitting ? "요청 정리 중..." : needsDetails ? "추가 내용 보내기" : "다음 단계로 넘어가기"}
+            {submitting ? "요청 정리 중.." : "다음 단계로 넘어가기"}
           </Button>
         </div>
       </form>
